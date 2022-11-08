@@ -13,12 +13,12 @@
         <System:Double x:Key="TextboxWidth">100</System:Double>
     </Page.Resources>
 
-    <Grid HorizontalAlignment="Stretch" Background="{DynamicResource Background}" Margin="10,10,10,10">
+    <Grid HorizontalAlignment="Stretch" Margin="10,10,10,10" Background="{DynamicResource Main}">
         <Grid.RowDefinitions>
             <RowDefinition Height="68*"/>
             <RowDefinition Height="147*"/>
         </Grid.RowDefinitions>
-        <Label Content="Welcome" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{x:Null}" Foreground="{DynamicResource Text}" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="50" BorderBrush="{DynamicResource Main}" BorderThickness="0,10,0,10" Height="96" Width="238">
+        <Label Content="Welcome" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{x:Null}" Foreground="{DynamicResource Text}" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="50" Height="96" Width="238">
             <Label.Effect>
                 <DropShadowEffect/>
             </Label.Effect>

@@ -1,0 +1,14 @@
+﻿<Application x:Class="GUI.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:GUI"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+
+        <SolidColorBrush x:Key="Highlight" Color="#c3ceda"/>
+        <SolidColorBrush x:Key="Light" Color="#738fa7"/>
+        <SolidColorBrush x:Key="Main" Color="#0c4160"/>
+        <SolidColorBrush x:Key="Dark" Color="#071330"/>
+        <SolidColorBrush x:Key="Text" Color="#738fa7"/>
+    </Application.Resources>
+</Application>

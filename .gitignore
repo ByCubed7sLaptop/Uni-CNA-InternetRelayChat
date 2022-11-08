@@ -3,3 +3,12 @@
 ################################################################################
 
 /SocketConnect/bin/Debug/net6.0
+/SocketConnect/obj/Debug/net6.0
+/IRC/obj/Debug/net6.0/refint
+/IRC/obj/Debug/net6.0/ref
+/IRC/bin/Debug/net6.0
+/GUI/bin/Debug
+/ConcurrentNetworkApplications/obj/Debug/net6.0/ref
+/ConcurrentNetworkApplications/obj/Debug/net6.0/refint
+/ConcurrentNetworkApplications/bin/Debug/net6.0
+/.vs/ConcurrentNetworkApplications/DesignTimeBuild

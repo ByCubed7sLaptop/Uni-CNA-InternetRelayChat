@@ -19,16 +19,23 @@
         </Grid.ColumnDefinitions>
 
 
-        <Rectangle Margin="5,5,2,5" Stroke="Black" Grid.RowSpan="2"/>
-        <WrapPanel HorizontalAlignment="Left" Margin="12,5,0,0" Orientation="Vertical" VerticalAlignment="Top" Height="40" Width="40">
-            <Button x:Name="exitbutton" Content="E" Background="{DynamicResource Highlight}" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom" FontFamily="Wingdings" FontSize="30" FontWeight="Bold" Height="{Binding Width, ElementName=exitbutton}"  Width="40"/>
+        <WrapPanel HorizontalAlignment="Stretch" Margin="5,5,2,5" Orientation="Vertical" VerticalAlignment="Stretch">
+            <Button x:Name="ExitButton" Content="E" Background="{DynamicResource Highlight}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Wingdings" FontSize="30" FontWeight="Bold" FontStyle="Normal" Padding="0,0,0,0" Width="53" Height="39"/>
         </WrapPanel>
+        <Rectangle Margin="5,5,2,5" Stroke="Black" Grid.RowSpan="2"/>
 
+        <Label x:Name="MessageLabel" Content="Label" Margin="2,5,2,2" Grid.Column="1" Grid.ColumnSpan="2" Background="{DynamicResource Light}"/>
         <Rectangle Margin="2,5,2,2" Stroke="Black" Grid.Column="1" Grid.ColumnSpan="2"/>
+        
         <Rectangle Margin="2,5,5,2" Stroke="Black" Grid.Column="3"/>
         <Rectangle Margin="2,2,2,5" Stroke="Black" Grid.Column="1" Grid.Row="1"/>
         <Rectangle Margin="2,2,5,5" Stroke="Black" Grid.Column="3" Grid.Row="1"/>
+        
+        
+        <Button x:Name="SendButton" Grid.Column="2" Content="Button" HorizontalAlignment="Stretch" Margin="2,2,2,5" Grid.Row="1" VerticalAlignment="Stretch" Background="{DynamicResource Highlight}"/>
         <Rectangle Margin="2,2,2,5" Stroke="Black" Grid.Column="2" Grid.Row="1"/>
+
+
 
 
     </Grid>

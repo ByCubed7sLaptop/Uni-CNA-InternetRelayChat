@@ -8,15 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="GUI\**" />
-    <Compile Remove="SocketConnect\**" />
-    <EmbeddedResource Remove="GUI\**" />
-    <EmbeddedResource Remove="SocketConnect\**" />
-    <None Remove="GUI\**" />
-    <None Remove="SocketConnect\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\SocketConnect\SocketConnect.csproj" />
   </ItemGroup>
 

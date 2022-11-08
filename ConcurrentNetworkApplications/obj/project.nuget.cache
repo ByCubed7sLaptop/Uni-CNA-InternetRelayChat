@@ -1,0 +1,18 @@
+{
+  "version": 2,
+  "dgSpecHash": "wkvB0/wVS6YpfGAp0hF5XSxlRkt8N1/fhXUBAsERpBDAjUUzDCrB+xHa6cC6MW9nps5Gu702TqZNxmYR0sR7aw==",
+  "success": false,
+  "projectFilePath": "D:\\Projects\\CNAInternetRelayChat\\ConcurrentNetworkApplications\\ConcurrentNetworkApplications.csproj",
+  "expectedPackageFiles": [],
+  "logs": [
+    {
+      "code": "NU1201",
+      "level": "Error",
+      "message": "Project GUI is not compatible with net6.0 (.NETCoreApp,Version=v6.0). Project GUI supports: net6.0-windows7.0 (.NETCoreApp,Version=v6.0)",
+      "libraryId": "GUI",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    }
+  ]
+}

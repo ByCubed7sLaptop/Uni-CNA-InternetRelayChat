@@ -9,8 +9,6 @@
       Title="MainMenu" Background="{DynamicResource Main}"
     xmlns:System="clr-namespace:System;assembly=System.Runtime">
     <Page.Resources>
-        <System:Double x:Key="LableWidth">100</System:Double>
-        <System:Double x:Key="TextboxWidth">100</System:Double>
     </Page.Resources>
 
     <Grid HorizontalAlignment="Stretch" Margin="10,10,10,10" Background="{DynamicResource Main}">
@@ -27,13 +25,13 @@
         <WrapPanel HorizontalAlignment="Center" Orientation="Vertical" Grid.Row="1" VerticalAlignment="Center" Width="200">
 
             <WrapPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Center">
-                <Label Width="{DynamicResource LableWidth}" Content="IP:" Background="{x:Null}" Foreground="{DynamicResource Text}" HorizontalAlignment="Right" FontFamily="Arial Black"/>
-                <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Width="{DynamicResource TextboxWidth}" Background="{DynamicResource {x:Static SystemColors.InactiveBorderBrushKey}}" Padding="4,2,0,2"><Run Language="en-gb" Text="Insert IP here"/></TextBlock>
+                <Label Content="IP:" Background="{x:Null}" Foreground="{DynamicResource Text}" HorizontalAlignment="Right" FontFamily="Arial Black"/>
+                <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Background="{DynamicResource {x:Static SystemColors.InactiveBorderBrushKey}}" Padding="4,2,0,2"><Run Language="en-gb" Text="Insert IP here"/></TextBlock>
             </WrapPanel>
 
             <WrapPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Center">
-                <Label Width="{DynamicResource LableWidth}" Content="Username:" Background="{x:Null}" Foreground="{DynamicResource Text}" HorizontalAlignment="Right" FontFamily="Impact"/>
-                <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Width="{DynamicResource TextboxWidth}" Background="{DynamicResource {x:Static SystemColors.InactiveBorderBrushKey}}" Padding="4,2,0,2" Text="Insert Username"/>
+                <Label Content="Username:" Background="{x:Null}" Foreground="{DynamicResource Text}" HorizontalAlignment="Right" FontFamily="Impact"/>
+                <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Background="{DynamicResource {x:Static SystemColors.InactiveBorderBrushKey}}" Padding="4,2,0,2" Text="Insert Username"/>
             </WrapPanel>
 
             <Separator Height="10"/>

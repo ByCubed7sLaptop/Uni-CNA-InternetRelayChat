@@ -1,0 +1,142 @@
+{
+  "version": 3,
+  "targets": {
+    "net6.0": {
+      "GUI/1.0.0": {
+        "type": "project",
+        "framework": "Unsupported,Version=v0.0",
+        "compile": {
+          "bin/placeholder/GUI.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/GUI.dll": {}
+        }
+      },
+      "IRC/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "SocketConnect": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/IRC.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/IRC.dll": {}
+        }
+      },
+      "SocketConnect/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/SocketConnect.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/SocketConnect.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "GUI/1.0.0": {
+      "type": "project",
+      "path": "../GUI/GUI.csproj",
+      "msbuildProject": "../GUI/GUI.csproj"
+    },
+    "IRC/1.0.0": {
+      "type": "project",
+      "path": "../IRC/IRC.csproj",
+      "msbuildProject": "../IRC/IRC.csproj"
+    },
+    "SocketConnect/1.0.0": {
+      "type": "project",
+      "path": "../SocketConnect/SocketConnect.csproj",
+      "msbuildProject": "../SocketConnect/SocketConnect.csproj"
+    }
+  },
+  "projectFileDependencyGroups": {
+    "net6.0": [
+      "GUI >= 1.0.0",
+      "IRC >= 1.0.0",
+      "SocketConnect >= 1.0.0"
+    ]
+  },
+  "packageFolders": {
+    "C:\\Users\\ByCubed7\\.nuget\\packages\\": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "D:\\Projects\\CNAInternetRelayChat\\ConcurrentNetworkApplications\\ConcurrentNetworkApplications.csproj",
+      "projectName": "ConcurrentNetworkApplications",
+      "projectPath": "D:\\Projects\\CNAInternetRelayChat\\ConcurrentNetworkApplications\\ConcurrentNetworkApplications.csproj",
+      "packagesPath": "C:\\Users\\ByCubed7\\.nuget\\packages\\",
+      "outputPath": "D:\\Projects\\CNAInternetRelayChat\\ConcurrentNetworkApplications\\obj\\",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "C:\\Users\\ByCubed7\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+      ],
+      "originalTargetFrameworks": [
+        "net6.0"
+      ],
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "projectReferences": {
+            "D:\\Projects\\CNAInternetRelayChat\\GUI\\GUI.csproj": {
+              "projectPath": "D:\\Projects\\CNAInternetRelayChat\\GUI\\GUI.csproj"
+            },
+            "D:\\Projects\\CNAInternetRelayChat\\IRC\\IRC.csproj": {
+              "projectPath": "D:\\Projects\\CNAInternetRelayChat\\IRC\\IRC.csproj"
+            },
+            "D:\\Projects\\CNAInternetRelayChat\\SocketConnect\\SocketConnect.csproj": {
+              "projectPath": "D:\\Projects\\CNAInternetRelayChat\\SocketConnect\\SocketConnect.csproj"
+            }
+          }
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      }
+    },
+    "frameworks": {
+      "net6.0": {
+        "targetAlias": "net6.0",
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.200\\RuntimeIdentifierGraph.json"
+      }
+    }
+  },
+  "logs": [
+    {
+      "code": "NU1201",
+      "level": "Error",
+      "message": "Project GUI is not compatible with net6.0 (.NETCoreApp,Version=v6.0). Project GUI supports: net6.0-windows7.0 (.NETCoreApp,Version=v6.0)",
+      "libraryId": "GUI",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    }
+  ]
+}

@@ -4,7 +4,6 @@
              xmlns:local="clr-namespace:GUI"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-
         <SolidColorBrush x:Key="Highlight" Color="#c3ceda"/>
         <SolidColorBrush x:Key="Light" Color="#738fa7"/>
         <SolidColorBrush x:Key="Main" Color="#0c4160"/>

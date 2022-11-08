@@ -1,0 +1,46 @@
+﻿<Page x:Class="ChatUI.MainMenu"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:ChatUI"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="MainMenu" Background="{DynamicResource Main}"
+    xmlns:System="clr-namespace:System;assembly=System.Runtime">
+    <Page.Resources>
+        <System:Double x:Key="LableWidth">100</System:Double>
+        <System:Double x:Key="TextboxWidth">100</System:Double>
+    </Page.Resources>
+
+    <Grid HorizontalAlignment="Stretch" Background="{DynamicResource Background}" Margin="10,10,10,10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="68*"/>
+            <RowDefinition Height="147*"/>
+        </Grid.RowDefinitions>
+        <Label Content="Welcome" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{x:Null}" Foreground="{DynamicResource Text}" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="50" BorderBrush="{DynamicResource Main}" BorderThickness="0,10,0,10" Height="96" Width="238">
+            <Label.Effect>
+                <DropShadowEffect/>
+            </Label.Effect>
+        </Label>
+
+        <WrapPanel HorizontalAlignment="Center" Orientation="Vertical" Grid.Row="1" VerticalAlignment="Center" Width="200">
+
+            <WrapPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Center">
+                <Label Width="{DynamicResource LableWidth}" Content="IP:" Background="{x:Null}" Foreground="{DynamicResource Text}" HorizontalAlignment="Right" FontFamily="Arial Black"/>
+                <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Width="{DynamicResource TextboxWidth}" Background="{DynamicResource {x:Static SystemColors.InactiveBorderBrushKey}}" Padding="4,2,0,2"><Run Language="en-gb" Text="Insert IP here"/></TextBlock>
+            </WrapPanel>
+
+            <WrapPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Center">
+                <Label Width="{DynamicResource LableWidth}" Content="Username:" Background="{x:Null}" Foreground="{DynamicResource Text}" HorizontalAlignment="Right" FontFamily="Impact"/>
+                <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Width="{DynamicResource TextboxWidth}" Background="{DynamicResource {x:Static SystemColors.InactiveBorderBrushKey}}" Padding="4,2,0,2" Text="Insert Username"/>
+            </WrapPanel>
+
+            <Separator Height="10"/>
+
+            <Button x:Name="JoinButton" Content="Join!" Width="100" Background="{DynamicResource Main}" Foreground="{DynamicResource Text}" BorderBrush="{x:Null}" />
+
+        </WrapPanel>
+
+    </Grid>
+</Page>

@@ -4,7 +4,6 @@
     "net6.0": {
       "GUI/1.0.0": {
         "type": "project",
-        "framework": "Unsupported,Version=v0.0",
         "compile": {
           "bin/placeholder/GUI.dll": {}
         },
@@ -127,16 +126,5 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.200\\RuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1201",
-      "level": "Error",
-      "message": "Project GUI is not compatible with net6.0 (.NETCoreApp,Version=v6.0). Project GUI supports: net6.0-windows7.0 (.NETCoreApp,Version=v6.0)",
-      "libraryId": "GUI",
-      "targetGraphs": [
-        "net6.0"
-      ]
-    }
-  ]
+  }
 }

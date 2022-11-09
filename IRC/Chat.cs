@@ -8,5 +8,6 @@ namespace IRC
 {
     public class Chat
     {
+
     }
 }

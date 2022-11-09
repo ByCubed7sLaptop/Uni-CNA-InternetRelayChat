@@ -8,37 +8,53 @@ namespace SocketConnect
 {
     public class Message
     {
+
+        //
+
         public string Header { get; set; }
         public List<string> Args { get; set; }
+
+        //
+        static public Message CreateRecieved() => new("Recieved");
+        static public Message CreateShutdown() => new("Shutdown");
+
+        //
 
         public Message()
         {
             Header = "HEADER";
             Args = new List<string>();
         }
-
-        virtual public void FromString(string data)
+        public Message(string header) : this()
         {
-            List<string> datalist = new List<string>(data.Split(Connection.Split));
+            FromString(header);
+        }
+
+
+        virtual public Message FromString(string data)
+        {
+            data = data.Replace(Connector.EOF, "");
+            List<string> datalist = new List<string>(data.Split(Connector.Split));
 
             Header = datalist[0];
             datalist.RemoveAt(0);
 
             Args = datalist;
+            return this;
         }
 
-        public void FromBytes(byte[] data)
+        public Message FromBytes(byte[] data)
         {
-            FromString(Encoding.UTF8.GetString(data));
+            return FromString(Encoding.UTF8.GetString(data));
         }
 
         public override string ToString()
         {
-            string datastring = Header + Connection.Split;
+            string datastring = Header + Connector.Split;
             foreach (string arg in Args)
-                datastring += arg + Connection.Split;
-            datastring.Trim();
-            datastring += Connection.EOF;
+                datastring += arg + Connector.Split;
+            datastring = datastring.Trim();
+            datastring += Connector.EOF;
             return datastring;
         }
 

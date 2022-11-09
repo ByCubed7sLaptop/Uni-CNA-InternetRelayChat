@@ -1,3 +1,23 @@
-﻿
+﻿using System.Threading;
 
-Console.WriteLine("Hello, World!");
+SocketConnect.Server server = new SocketConnect.Server();
+SocketConnect.Client client = new SocketConnect.Client();
+
+
+Thread serverThread = new Thread(() => {
+    server.Ready();
+});
+
+Thread clientThread = new Thread(() => {
+    client.Ready();
+});
+
+
+serverThread.Start();
+clientThread.Start();
+
+serverThread.Join();
+clientThread.Join();
+
+
+

@@ -12,7 +12,7 @@ namespace SocketConnect
     {
         Socket listener;
 
-        HashSet<Socket> clients;
+        List<Socket> clients;
 
         bool isShuttingDown;
 
@@ -24,7 +24,7 @@ namespace SocketConnect
                 ProtocolType.Tcp
             );
 
-            clients = new HashSet<Socket>();
+            clients = new List<Socket>();
 
             isShuttingDown = false;
         }
@@ -129,12 +129,18 @@ namespace SocketConnect
             TryDisconnect(clientSocket);
             clients.Remove(clientSocket);
         }
-        public void Send(Socket clientSocket, Message message)
+
+        static public void Send(Socket clientSocket, Message message)
         {
             // Send a message to Client
             clientSocket.Send(message.ToBytes());
         }
 
+        public void Broadcast(Message message)
+        {
+            for (int i = 0; i < clients.Count; i++)
+                Send(clients[i], message);
+        }
 
         public void Shutdown()
         {
@@ -147,13 +153,6 @@ namespace SocketConnect
             clients.Clear();
         }
 
-        public void TryDisconnectAll()
-        {
-            foreach (Socket client in clients)
-                TryDisconnect(client);
-        }
-
-
         public void TryDisconnect(Socket clientSocket)
         {
             if (!clientSocket.Connected) return;
@@ -164,6 +163,11 @@ namespace SocketConnect
             Console.WriteLine("SocketConnect::Server - Disconnected with a client");
 
             InvokeOnDisconnect();
+        }
+        public void TryDisconnectAll()
+        {
+            for (int i = 0; i < clients.Count; i++)
+                TryDisconnect(clients[i]);
         }
 
     }

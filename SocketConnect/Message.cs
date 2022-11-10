@@ -56,19 +56,25 @@ namespace SocketConnect
 
         virtual public Message FromString(string data)
         {
-            //Console.WriteLine(data);
             data = data.Replace(Connector.EOF.ToString(), "");
             List<string> datalist = new List<string>(data.Split(Connector.Split));
 
+            if (datalist.Count < 2)
+            {
+                Console.WriteLine("Message::FromString could not parse data:" + data);
+                //return null;
+            }
+
+            //Console.WriteLine(data + "\tCounted: " + datalist.Count);
             Header = datalist[0];
-            //Console.WriteLine("Parsing: " + datalist[1]);
-            //Id = Guid.ParseExact(datalist[1], "N");
+
             // See: https://stackoverflow.com/questions/28106574/try-parse-guid-issues-with-a-valid-guid
-            string guid = Regex.Replace(datalist[1], "[^A-Fa-f0-9]", string.Empty);
+            string guid = datalist[1];
+            guid = Regex.Replace(guid, "[^A-Fa-f0-9]", string.Empty);
             Id = Guid.ParseExact(guid, "N");
 
             if (datalist.Count > 2)
-                Args = datalist.GetRange(2, datalist.Count-1);
+                Args = datalist.GetRange(2, datalist.Count-2);
             
             return this;
         }
@@ -76,7 +82,7 @@ namespace SocketConnect
         public override string ToString()
         {
             string datastring = Header;
-            datastring += Connector.Split + Id.ToString("N");
+            datastring += Connector.Split + Id.ToString();
             foreach (string arg in Args)
                 datastring += Connector.Split + arg;
             datastring += Connector.EOF;

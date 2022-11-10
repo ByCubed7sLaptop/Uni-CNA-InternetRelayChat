@@ -13,6 +13,8 @@ namespace SocketConnect
     {
         Socket sender;
 
+        //List<Message> awaitingResponses;
+
         public Client(IPAddress ipAddr) : base(ipAddr)
         {
             sender = new Socket(
@@ -20,9 +22,11 @@ namespace SocketConnect
                 SocketType.Stream,
                 ProtocolType.Tcp
             );
+
+            //awaitingResponses = new List<Message>();
         }
 
-        public void Handshake()
+        public void Connect()
         {
             try
             {
@@ -46,35 +50,34 @@ namespace SocketConnect
 
 
         // Send 
-        public Message? Send(Message message)
+        public void Send(Message message)
         {
-            if (!sender.Connected) return null;
+            if (!sender.Connected) return;
 
             try
             {
                 sender.Send(message.ToBytes());
-                sent.Add(message);
-                if (sent.Count == cache) sent.Remove(0);
+                //awaitingResponses.Add(message);
             }
             catch (SocketException se)
             {
                 //Console.WriteLine("SocketConnect::Client - SocketException : {0}", se.ToString());
-                return null;
+                return;
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.ToString());
-                return null;
+                return;
             }
 
             // Receive the return message
-            Message? receivedMessage = Receive();
+            //Message? receivedMessage = Receive();
 
-            Console.WriteLine("SocketConnect::Client - Message from Server -> {0}",
-                  receivedMessage?.ToString()
-            );
+            //Console.WriteLine("SocketConnect::Client - Message from Server -> {0}",
+            //      receivedMessage?.ToString()
+            //);
 
-            return receivedMessage;
+            //return receivedMessage;
         }
 
         public Message? Receive()
@@ -103,6 +106,10 @@ namespace SocketConnect
             // Create the message
             Message message = new Message().FromBytes(bytesReceived);
 
+            //for (int i = 0; i < awaitingResponses.Count; i++)
+            //    if (awaitingResponses[i].Equals(message))
+            //        awaitingResponses.RemoveAt(i);
+                    
             InvokeOnMessageReceived(message);
             return message;
         }

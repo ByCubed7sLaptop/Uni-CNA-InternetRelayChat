@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,7 +11,7 @@ namespace IRC
     {
         string Username { get; set; }
 
-        public User(string username)
+        public User(IPAddress ipAddr, int port, string username) : base(ipAddr)
         {
             Username = username;
         }

@@ -72,11 +72,11 @@ namespace SocketConnect
         }
 
 
-        public Thread ConnectClientThread(Socket clientSocket)
+        protected Thread ConnectClientThread(Socket clientSocket)
         {
             return new Thread(() => ConnectClient(clientSocket));
         }
-        public void ConnectClient(Socket clientSocket)
+        protected void ConnectClient(Socket clientSocket)
         {
             // Add client to list
             clients.Add(clientSocket);
@@ -153,7 +153,7 @@ namespace SocketConnect
             clients.Clear();
         }
 
-        public void TryDisconnect(Socket clientSocket)
+        protected void TryDisconnect(Socket clientSocket)
         {
             if (!clientSocket.Connected) return;
 
@@ -164,7 +164,7 @@ namespace SocketConnect
             clientSocket.Close();
 
         }
-        public void TryDisconnectAll()
+        protected void TryDisconnectAll()
         {
             for (int i = 0; i < clients.Count; i++)
                 TryDisconnect(clients[i]);

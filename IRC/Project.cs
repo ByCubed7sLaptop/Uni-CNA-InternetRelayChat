@@ -1,6 +1,16 @@
-﻿
+﻿using SocketConnect;
+using System.Net;
+using System.Threading;
 
-IRC.Chatroom chatroom = new IRC.Chatroom();
+IPHostEntry ipHost = Dns.GetHostEntry(Dns.GetHostName());
+IPAddress ipAddr = ipHost.AddressList[0];
 
-IRC.User user1 = new IRC.User("Ethan");
+
+IRC.Chatroom chatroom = new IRC.Chatroom(ipAddr, 11111);
+
+//chatroom.
+
+
+IRC.User user1 = new IRC.User(ipAddr, 11111, "Ethan");
+user1.Connect();
 

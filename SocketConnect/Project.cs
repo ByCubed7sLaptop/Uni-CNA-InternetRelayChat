@@ -6,7 +6,7 @@ using System.Threading;
 //for (int i = 0; i < 100; i++) {
 IPHostEntry ipHost = Dns.GetHostEntry(Dns.GetHostName());
 IPAddress ipAddr = ipHost.AddressList[0];
-IPEndPoint endPoint = new IPEndPoint(ipAddr, 11111);
+//IPEndPoint endPoint = new IPEndPoint(ipAddr, 11111);
 
 SocketConnect.Server server = new SocketConnect.Server(ipAddr);
 Thread serverThread = new Thread(() => {
@@ -15,7 +15,7 @@ Thread serverThread = new Thread(() => {
 
 SocketConnect.Client client = new SocketConnect.Client(ipAddr);
 Thread clientThread = new Thread(() => {
-    client.Handshake();
+    client.Connect();
 
     client.Send(new Message().Titled("Message1#A"));
     client.Send(new Message().Titled("Message1#B").Add("AAAAA"));
@@ -24,7 +24,7 @@ Thread clientThread = new Thread(() => {
 
 SocketConnect.Client client2 = new SocketConnect.Client(ipAddr);
 Thread client2Thread = new Thread(() => {
-    client2.Handshake();
+    client2.Connect();
 
     client2.Send(new Message().Titled("Message2#A").Add("ByCubed7").Add("AAAAAAAAAAAAAAAAAA"));
     client2.Send(new Message().Titled("Message2#B"));

@@ -14,6 +14,8 @@ namespace SocketConnect
 
         HashSet<Socket> clients;
 
+        bool isShuttingDown;
+
         public Server() : base()
         {
             listener = new Socket(
@@ -23,15 +25,14 @@ namespace SocketConnect
             );
 
             clients = new HashSet<Socket>();
+
+            isShuttingDown = false;
         }
 
-        public void Ready() 
+        public void Start()
         {
-            StartListening();
-        }
+            isShuttingDown = false;
 
-        public void StartListening()
-        {
             try
             {
                 // Using Bind() method we associate a network address to the Server Socket
@@ -49,62 +50,120 @@ namespace SocketConnect
 
                     // Suspend while waiting for incoming connection
                     Socket clientSocket = listener.Accept();
+                    Console.WriteLine("SocketConnect::Server - Connected with a client");
 
-                    // TODO: Send to seperate thread
-                    ConnectClient(clientSocket);
+                    //ConnectClient(clientSocket);
+                    ConnectClientThread(clientSocket).Start();
+
+                    if (isShuttingDown) break;
                 }
+            }
+            catch (SocketException se)
+            {
+                //Console.WriteLine("SocketConnect::Server - SocketException : {0}", se.ToString());
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.ToString());
             }
+
+            TryDisconnectAll();
+            clients.Clear();
         }
 
 
+        public Thread ConnectClientThread(Socket clientSocket)
+        {
+            return new Thread(() => ConnectClient(clientSocket));
+        }
         public void ConnectClient(Socket clientSocket)
         {
             // Add client to list
             clients.Add(clientSocket);
             InvokeOnConnect();
 
-            while (true)
+            try
             {
-                // Data buffer
-                byte[] bytes = new Byte[1024];
-                string data = null;
-
-                // Recieve data
                 while (true)
                 {
-                    int numByte = clientSocket.Receive(bytes);
-                    data += Encoding.ASCII.GetString(bytes, 0, numByte);
-                    if (data.IndexOf(EOF) > -1) break;
+                    // Data buffer
+                    byte[] bytes = new Byte[1024];
+                    string data = null;
+
+                    // Recieve data
+                    while (true)
+                    {
+                        int numByte = clientSocket.Receive(bytes);
+                        data += Encoding.ASCII.GetString(bytes, 0, numByte);
+                        if (data.IndexOf(EOF) > -1) break;
+                    }
+
+                    Message message = new Message().FromString(data);
+
+                    Console.WriteLine("SocketConnect::Server - Text received -> {0} ", message.ToString());
+
+                    Send(clientSocket, Message.CreateRecieved(message));
+
+                    if (message.Header == "Shutdown")
+                    {
+                        Shutdown();
+                        break;
+                    }
+
+                    if (message.Header == "Disconnect")
+                        break;
+
+                    if (isShuttingDown) break;
                 }
-
-                Message message = new Message().FromString(data);
-
-                Console.WriteLine("SocketConnect::Server - Text received -> {0} ", message.ToString());
-                
-                Send(clientSocket, Message.CreateRecieved());
-
-                if (message.Header == "Shutdown")
-                    break;
             }
-            
+            catch (SocketException se)
+            {
+                //Console.WriteLine("SocketConnect::Server - SocketException : {0}", se.ToString());
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("SocketConnect::Server - Unexpected exception : {0}", e.ToString());
+            }            
+
             // Close client Socket
-            clientSocket.Shutdown(SocketShutdown.Both);
-            clientSocket.Close();
-
-            // Remove client from list
+            TryDisconnect(clientSocket);
             clients.Remove(clientSocket);
-            InvokeOnDisconnect();
         }
-
-
         public void Send(Socket clientSocket, Message message)
         {
             // Send a message to Client
             clientSocket.Send(message.ToBytes());
+        }
+
+
+        public void Shutdown()
+        {
+            if (isShuttingDown) return; // Already shutting down
+            Console.WriteLine("SocketConnect::Server - Shutting down");
+            isShuttingDown = true;
+            listener.Close();
+
+            TryDisconnectAll();
+            clients.Clear();
+        }
+
+        public void TryDisconnectAll()
+        {
+            foreach (Socket client in clients)
+                TryDisconnect(client);
+        }
+
+
+        public void TryDisconnect(Socket clientSocket)
+        {
+            if (!clientSocket.Connected) return;
+
+            clientSocket.Shutdown(SocketShutdown.Both);
+            clientSocket.Close();
+
+            Console.WriteLine("SocketConnect::Server - Disconnected with a client");
+
+            InvokeOnDisconnect();
         }
 
     }

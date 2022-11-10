@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -21,7 +22,7 @@ namespace SocketConnect
             );
         }
 
-        public void Ready()
+        public void Handshake()
         {
             try
             {
@@ -32,20 +33,10 @@ namespace SocketConnect
                     "SocketConnect::Client - Socket connected to -> {0} ",
                     sender.RemoteEndPoint.ToString()
                 );
-
-                Send(new Message("Message#A"));
-                Send(new Message("Message#B"));
-                Send(Message.CreateShutdown());
-                Send(new Message("Message#C"));
-
-            }
-            catch (ArgumentNullException ane)
-            {
-                Console.WriteLine("SocketConnect::Client - ArgumentNullException : {0}", ane.ToString());
             }
             catch (SocketException se)
             {
-                Console.WriteLine("SocketConnect::Client - SocketException : {0}", se.ToString());
+                //Console.WriteLine("SocketConnect::Client - SocketException : {0}", se.ToString());
             }
             catch (Exception e)
             {
@@ -55,13 +46,30 @@ namespace SocketConnect
 
 
         // Send 
-        public Message Send(Message message)
+        public Message? Send(Message message)
         {
+            if (!sender.Connected) return null;
+
             byte[] messageToSend = message.ToBytes();
-            sender.Send(messageToSend);
+
+            try
+            {
+                sender.Send(messageToSend);
+            }
+            catch (SocketException se)
+            {
+                //Console.WriteLine("SocketConnect::Client - SocketException : {0}", se.ToString());
+                return null;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                return null;
+            }
 
             // Receive the return message
-            Message receivedMessage = Receive();
+            Message? receivedMessage = Receive();
+            if (receivedMessage is null) return receivedMessage;
 
             Console.WriteLine("SocketConnect::Client - Message from Server -> {0}",
                   receivedMessage.ToString()
@@ -70,13 +78,28 @@ namespace SocketConnect
             return receivedMessage;
         }
 
-        public Message Receive()
+        public Message? Receive()
         {
+            if (!sender.Connected) return null;
+
             // Data buffer
             byte[] bytesReceived = new byte[1024];
 
             // Receive the bytes
-            sender.Receive(bytesReceived);
+            try
+            {
+                sender.Receive(bytesReceived);
+            }
+            catch (SocketException se)
+            {
+                //Console.WriteLine("SocketConnect::Client - SocketException : {0}", se.ToString());
+                return null;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                return null;
+            }
 
             // Create the message
             Message message = new Message().FromBytes(bytesReceived);

@@ -10,8 +10,8 @@ namespace SocketConnect
 {
     public class Connector
     {
-        public const string EOF = ";";
-        public const string Split = " ";
+        public const char EOF = ';';
+        public const char Split = '|';
 
         protected IPHostEntry ipHost;
         protected IPAddress ipAddr;

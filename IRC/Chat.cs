@@ -8,6 +8,8 @@ namespace IRC
 {
     public class Chat
     {
+        public List<Message> messages = new List<Message>();
+
 
     }
 }

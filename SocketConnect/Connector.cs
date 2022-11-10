@@ -17,11 +17,17 @@ namespace SocketConnect
         protected IPAddress ipAddr;
         protected IPEndPoint localEndPoint;
 
+        protected const int cache = 5;
+        protected Cubed.Collections.Hashlist<Message> sent;
+
+
         public Connector()
         {
             ipHost = Dns.GetHostEntry(Dns.GetHostName());
             ipAddr = ipHost.AddressList[0];
             localEndPoint = new IPEndPoint(ipAddr, 11111);
+
+            sent = new Cubed.Collections.Hashlist<Message>();
         }
 
         // When a client connects

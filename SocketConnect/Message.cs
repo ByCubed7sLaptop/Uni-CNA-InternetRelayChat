@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SocketConnect
 {
-    public class Message
+    public class Message : IEquatable<Message>
     {
 
         //
@@ -40,6 +40,7 @@ namespace SocketConnect
         }
 
         // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
         public Message Titled(string header)
         {
             Header = header;
@@ -93,6 +94,27 @@ namespace SocketConnect
             return Encoding.UTF8.GetBytes(ToString());
         }
 
+        // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        // Equals
 
+        public bool Equals(Message? other)
+        {
+            if (other is null) return false;
+            if (!ReferenceEquals(this, other)) return false;
+            //if (Header != other.Header) return false;
+            if (Id != other.Id) return false;
+
+            return true;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as Message);
+        }
+
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode();
+        }
     }
 }

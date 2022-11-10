@@ -50,11 +50,11 @@ namespace SocketConnect
         {
             if (!sender.Connected) return null;
 
-            byte[] messageToSend = message.ToBytes();
-
             try
             {
-                sender.Send(messageToSend);
+                sender.Send(message.ToBytes());
+                sent.Add(message);
+                if (sent.Count == cache) sent.Remove(0);
             }
             catch (SocketException se)
             {
@@ -69,10 +69,9 @@ namespace SocketConnect
 
             // Receive the return message
             Message? receivedMessage = Receive();
-            if (receivedMessage is null) return receivedMessage;
 
             Console.WriteLine("SocketConnect::Client - Message from Server -> {0}",
-                  receivedMessage.ToString()
+                  receivedMessage?.ToString()
             );
 
             return receivedMessage;
@@ -107,6 +106,5 @@ namespace SocketConnect
             InvokeOnMessageReceived(message);
             return message;
         }
-
     }
 }

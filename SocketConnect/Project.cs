@@ -2,14 +2,11 @@
 using System.Threading;
 
 SocketConnect.Server server = new SocketConnect.Server();
-SocketConnect.Client client = new SocketConnect.Client();
-SocketConnect.Client client2 = new SocketConnect.Client();
-
-
 Thread serverThread = new Thread(() => {
     server.Start();
 });
 
+SocketConnect.Client client = new SocketConnect.Client();
 Thread clientThread = new Thread(() => {
     client.Handshake();
 
@@ -17,22 +14,23 @@ Thread clientThread = new Thread(() => {
     client.Send(new Message().Titled("Message1#A"));
     Thread.Sleep(100);
     client.Send(new Message().Titled("Message1#B"));
-    Thread.Sleep(100);
+    Thread.Sleep(500);
     client.Send(Message.CreateDisconnect());
 });
 
+SocketConnect.Client client2 = new SocketConnect.Client();
 Thread client2Thread = new Thread(() => {
     client2.Handshake();
 
     Thread.Sleep(100);
-    client.Send(new Message().Titled("Message2#A"));
+    client2.Send(new Message().Titled("Message2#A"));
     Thread.Sleep(100);
-    client.Send(new Message().Titled("Message2#B"));
+    client2.Send(new Message().Titled("Message2#B"));
     Thread.Sleep(100);
-    client.Send(new Message().Titled("Message2#C"));
-    Thread.Sleep(100);
+    client2.Send(new Message().Titled("Message2#C"));
+    Thread.Sleep(500);
     //client.Send(Message.CreateShutdown());
-    client.Send(Message.CreateDisconnect());
+    //client2.Send(Message.CreateDisconnect());
 
 });
 
@@ -43,13 +41,12 @@ serverThread.Start();
 Console.WriteLine("Client Start");
 clientThread.Start();
 
-
-
 Console.WriteLine("Client2 Start");
 client2Thread.Start();
 
 client2Thread.Join();
 Console.WriteLine("Client2 End");
+
 clientThread.Join();
 Console.WriteLine("Client End");
 

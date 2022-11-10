@@ -13,7 +13,7 @@ namespace SocketConnect
     {
         Socket sender;
 
-        public Client() : base()
+        public Client(IPAddress ipAddr) : base(ipAddr)
         {
             sender = new Socket(
                 ipAddr.AddressFamily,

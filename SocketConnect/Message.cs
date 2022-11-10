@@ -69,8 +69,7 @@ namespace SocketConnect
             Header = datalist[0];
 
             // See: https://stackoverflow.com/questions/28106574/try-parse-guid-issues-with-a-valid-guid
-            string guid = datalist[1];
-            guid = Regex.Replace(guid, "[^A-Fa-f0-9]", string.Empty);
+            string guid = Regex.Replace(datalist[1], "[^A-Fa-f0-9]", string.Empty);
             Id = Guid.ParseExact(guid, "N");
 
             if (datalist.Count > 2)

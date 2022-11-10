@@ -16,7 +16,7 @@ namespace SocketConnect
 
         bool isShuttingDown;
 
-        public Server() : base()
+        public Server(IPAddress ipAddr) : base(ipAddr)
         {
             listener = new Socket(
                 ipAddr.AddressFamily,
@@ -80,7 +80,7 @@ namespace SocketConnect
         {
             // Add client to list
             clients.Add(clientSocket);
-            InvokeOnConnect();
+            InvokeOnConnect(clientSocket, listener);
 
             try
             {
@@ -157,12 +157,12 @@ namespace SocketConnect
         {
             if (!clientSocket.Connected) return;
 
+            InvokeOnDisconnect(clientSocket, listener);
+            Console.WriteLine("SocketConnect::Server - Disconnected with a client");
+
             clientSocket.Shutdown(SocketShutdown.Both);
             clientSocket.Close();
 
-            Console.WriteLine("SocketConnect::Server - Disconnected with a client");
-
-            InvokeOnDisconnect();
         }
         public void TryDisconnectAll()
         {

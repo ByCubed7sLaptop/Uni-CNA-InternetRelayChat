@@ -13,7 +13,7 @@ namespace SocketConnect
         public const char EOF = ';';
         public const char Split = '|';
 
-        protected IPHostEntry ipHost;
+        //private IPHostEntry ipHost;
         protected IPAddress ipAddr;
         protected IPEndPoint localEndPoint;
 
@@ -21,31 +21,31 @@ namespace SocketConnect
         protected Cubed.Collections.Hashlist<Message> sent;
 
 
-        public Connector()
+        public Connector(IPAddress ipAddr, int port = 11111)
         {
-            ipHost = Dns.GetHostEntry(Dns.GetHostName());
-            ipAddr = ipHost.AddressList[0];
-            localEndPoint = new IPEndPoint(ipAddr, 11111);
+            //ipHost = Dns.GetHostEntry(Dns.GetHostName());
+            ipAddr = ipAddr;
+            localEndPoint = new IPEndPoint(ipAddr, port);
 
             sent = new Cubed.Collections.Hashlist<Message>();
         }
 
         // When a client connects
-        public event EventHandler OnConnect;
-        public void InvokeOnConnect()
+        public event EventHandler<ClientEventArgs> OnConnect;
+        public void InvokeOnConnect(Socket client, Socket host)
         {
-            EventHandler eventHandler = OnConnect;
+            EventHandler<ClientEventArgs> eventHandler = OnConnect;
             if (eventHandler is null) return;
-            eventHandler(this, new EventArgs());
+            eventHandler(this, new ClientEventArgs(client, host));
         }
 
         // When a client disconnects
-        public event EventHandler OnDisconnect;
-        public void InvokeOnDisconnect()
+        public event EventHandler<ClientEventArgs> OnDisconnect;
+        public void InvokeOnDisconnect(Socket client, Socket host)
         {
-            EventHandler eventHandler = OnDisconnect;
+            EventHandler<ClientEventArgs> eventHandler = OnDisconnect;
             if (eventHandler is null) return;
-            eventHandler(this, new EventArgs());
+            eventHandler(this, new ClientEventArgs(client, host));
         }
 
         // When *I* shutdown
@@ -73,6 +73,18 @@ namespace SocketConnect
             public MessageEventArgs(Message message)
             {
                 Message = message;
+            }
+        }
+
+        public class ClientEventArgs : EventArgs
+        {
+            public Socket Client { get; set; }
+            public Socket Host { get; set; }
+
+            public ClientEventArgs(Socket client, Socket host)
+            {
+                Client = client;
+                Host = host;
             }
         }
 

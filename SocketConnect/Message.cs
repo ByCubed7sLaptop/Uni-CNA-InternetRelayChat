@@ -61,8 +61,8 @@ namespace SocketConnect
 
             if (datalist.Count < 2)
             {
-                Console.WriteLine("Message::FromString could not parse data:" + data);
-                //return null;
+                //Console.WriteLine("Message::FromString could not parse data:" + data);
+                return null;
             }
 
             //Console.WriteLine(data + "\tCounted: " + datalist.Count);

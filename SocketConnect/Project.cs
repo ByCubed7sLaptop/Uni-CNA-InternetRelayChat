@@ -6,25 +6,28 @@ using System.Threading;
 //for (int i = 0; i < 100; i++) {
 IPHostEntry ipHost = Dns.GetHostEntry(Dns.GetHostName());
 IPAddress ipAddr = ipHost.AddressList[0];
+int port = 11111;
 //IPEndPoint endPoint = new IPEndPoint(ipAddr, 11111);
 
-SocketConnect.Server server = new SocketConnect.Server(ipAddr);
+SocketConnect.Server server = new SocketConnect.Server(ipAddr, port);
 Thread serverThread = new Thread(() => {
     server.Start();
 });
 
-SocketConnect.Client client = new SocketConnect.Client(ipAddr);
+SocketConnect.Client client = new SocketConnect.Client(ipAddr, port);
 Thread clientThread = new Thread(() => {
     client.Connect();
+    client.ReceiveThread().Start();
 
     client.Send(new Message().Titled("Message1#A"));
     client.Send(new Message().Titled("Message1#B").Add("AAAAA"));
     client.Send(Message.CreateDisconnect());
 });
 
-SocketConnect.Client client2 = new SocketConnect.Client(ipAddr);
+SocketConnect.Client client2 = new SocketConnect.Client(ipAddr, port);
 Thread client2Thread = new Thread(() => {
     client2.Connect();
+    client2.ReceiveThread().Start();
 
     client2.Send(new Message().Titled("Message2#A").Add("ByCubed7").Add("AAAAAAAAAAAAAAAAAA"));
     client2.Send(new Message().Titled("Message2#B"));
@@ -50,6 +53,7 @@ Console.WriteLine("Client2 End");
 clientThread.Join();
 Console.WriteLine("Client End");
 
+//Thread.Sleep(1000); 
 server.Shutdown();
 
 serverThread.Join();

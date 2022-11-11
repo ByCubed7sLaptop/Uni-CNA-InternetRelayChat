@@ -11,11 +11,13 @@ namespace SocketConnect
 {
     public class Client : Connector
     {
+        private const bool DEBUG = false;
+
         Socket sender;
 
         //List<Message> awaitingResponses;
 
-        public Client(IPAddress ipAddr) : base(ipAddr)
+        public Client(IPAddress ipAddr, int port) : base(ipAddr, port)
         {
             sender = new Socket(
                 ipAddr.AddressFamily,
@@ -33,18 +35,15 @@ namespace SocketConnect
                 // Connect Socket to the remote endpoint using method Connect()
                 sender.Connect(localEndPoint);
 
-                Console.WriteLine(
-                    "SocketConnect::Client - Socket connected to -> {0} ",
-                    sender.RemoteEndPoint.ToString()
-                );
+                if (DEBUG) Console.WriteLine("SocketConnect::Client - Socket connected to -> {0} ", sender.RemoteEndPoint.ToString() );
             }
             catch (SocketException se)
             {
-                //Console.WriteLine("SocketConnect::Client - SocketException : {0}", se.ToString());
+                if (DEBUG) Console.WriteLine("SocketConnect::Client - SocketException : {0}", se.ToString());
             }
             catch (Exception e)
             {
-                Console.WriteLine("SocketConnect::Client - Unexpected exception : {0}", e.ToString());
+                if (DEBUG) Console.WriteLine("SocketConnect::Client - Unexpected exception : {0}", e.ToString());
             }
         }
 
@@ -61,7 +60,7 @@ namespace SocketConnect
             }
             catch (SocketException se)
             {
-                //Console.WriteLine("SocketConnect::Client - SocketException : {0}", se.ToString());
+                if (DEBUG) Console.WriteLine("SocketConnect::Client - SocketException : {0}", se.ToString());
                 return;
             }
             catch (Exception e)
@@ -70,10 +69,13 @@ namespace SocketConnect
                 return;
             }
 
+            // Give the client and server some breathing room
+            Thread.Sleep(100);
+
             // Receive the return message
             //Message? receivedMessage = Receive();
 
-            //Console.WriteLine("SocketConnect::Client - Message from Server -> {0}",
+            //if (DEBUG) Console.WriteLine("SocketConnect::Client - Message from Server -> {0}",
             //      receivedMessage?.ToString()
             //);
 
@@ -94,12 +96,12 @@ namespace SocketConnect
             }
             catch (SocketException se)
             {
-                //Console.WriteLine("SocketConnect::Client - SocketException : {0}", se.ToString());
+                if (DEBUG) Console.WriteLine("SocketConnect::Client - SocketException : {0}", se.ToString());
                 return null;
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                if (DEBUG) Console.WriteLine(e.ToString());
                 return null;
             }
 
@@ -112,6 +114,20 @@ namespace SocketConnect
                     
             InvokeOnMessageReceived(message);
             return message;
+        }
+
+        public Thread ReceiveThread()
+        {
+            return new Thread(() =>
+            {
+                while (true)
+                {
+                    Message message = Receive();
+                    if (message is null) break;
+
+                    if (DEBUG) Console.WriteLine("SocketConnect::Client - Recieved : {0}", message.ToString());
+                }
+            });
         }
     }
 }

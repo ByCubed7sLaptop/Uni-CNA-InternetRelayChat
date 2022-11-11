@@ -10,13 +10,15 @@ namespace SocketConnect
 {
     public class Server : Connector
     {
+        private const bool DEBUG = false;
+
         Socket listener;
 
         List<Socket> clients;
 
         bool isShuttingDown;
 
-        public Server(IPAddress ipAddr) : base(ipAddr)
+        public Server(IPAddress ipAddr, int port) : base(ipAddr, port)
         {
             listener = new Socket(
                 ipAddr.AddressFamily,
@@ -46,11 +48,11 @@ namespace SocketConnect
 
                 while (true)
                 {
-                    Console.WriteLine("SocketConnect::Server - Waiting connection ... ");
+                    if (DEBUG) Console.WriteLine("SocketConnect::Server - Waiting connection ... ");
 
                     // Suspend while waiting for incoming connection
                     Socket clientSocket = listener.Accept();
-                    Console.WriteLine("SocketConnect::Server - Connected with a client");
+                    if (DEBUG) Console.WriteLine("SocketConnect::Server - Connected with a client");
 
                     //ConnectClient(clientSocket);
                     ConnectClientThread(clientSocket).Start();
@@ -60,11 +62,11 @@ namespace SocketConnect
             }
             catch (SocketException se)
             {
-                //Console.WriteLine("SocketConnect::Server - SocketException : {0}", se.ToString());
+                if (DEBUG) Console.WriteLine("SocketConnect::Server - SocketException : {0}", se.ToString());
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                if (DEBUG) Console.WriteLine(e.ToString());
             }
 
             TryDisconnectAll();
@@ -100,7 +102,7 @@ namespace SocketConnect
 
                     Message message = new Message().FromString(data);
 
-                    Console.WriteLine("SocketConnect::Server - Text received -> {0} ", message.ToString());
+                    if (DEBUG) Console.WriteLine("SocketConnect::Server - Text received -> {0} ", message.ToString());
 
                     Send(clientSocket, Message.CreateRecieved(message));
 
@@ -113,16 +115,18 @@ namespace SocketConnect
                     if (message.Header == "Disconnect")
                         break;
 
+                    InvokeOnMessageReceived(message);
+
                     if (isShuttingDown) break;
                 }
             }
             catch (SocketException se)
             {
-                //Console.WriteLine("SocketConnect::Server - SocketException : {0}", se.ToString());
+                if (DEBUG) Console.WriteLine("SocketConnect::Server - SocketException : {0}", se.ToString());
             }
             catch (Exception e)
             {
-                Console.WriteLine("SocketConnect::Server - Unexpected exception : {0}", e.ToString());
+                if (DEBUG) Console.WriteLine("SocketConnect::Server - Unexpected exception : {0}", e.ToString());
             }            
 
             // Close client Socket
@@ -145,7 +149,7 @@ namespace SocketConnect
         public void Shutdown()
         {
             if (isShuttingDown) return; // Already shutting down
-            Console.WriteLine("SocketConnect::Server - Shutting down");
+            if (DEBUG) Console.WriteLine("SocketConnect::Server - Shutting down");
             isShuttingDown = true;
             listener.Close();
 
@@ -158,7 +162,7 @@ namespace SocketConnect
             if (!clientSocket.Connected) return;
 
             InvokeOnDisconnect(clientSocket, listener);
-            Console.WriteLine("SocketConnect::Server - Disconnected with a client");
+            if (DEBUG) Console.WriteLine("SocketConnect::Server - Disconnected with a client");
 
             clientSocket.Shutdown(SocketShutdown.Both);
             clientSocket.Close();

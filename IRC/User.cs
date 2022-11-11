@@ -7,13 +7,24 @@ using System.Threading.Tasks;
 
 namespace IRC
 {
+    
+
     public class User : SocketConnect.Client
     {
-        string Username { get; set; }
+        public string Username { get; set; }
 
-        public User(IPAddress ipAddr, int port, string username) : base(ipAddr)
+        public User(IPAddress ipAddr, int port, string username) : base(ipAddr, port)
         {
             Username = username;
+        }
+
+        public void Handshake()
+        {
+            // TODO: Add id / encryption keys / ect
+            Send(new SocketConnect.Message()
+                .Titled("Handshake")
+                .Add(Username)
+            );
         }
     }
 }

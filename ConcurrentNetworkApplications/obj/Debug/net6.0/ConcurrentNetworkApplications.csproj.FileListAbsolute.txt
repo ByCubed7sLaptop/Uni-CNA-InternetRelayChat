@@ -27,3 +27,5 @@ D:\Projects\CNAInternetRelayChat\ConcurrentNetworkApplications\obj\Debug\net6.0\
 D:\Projects\CNAInternetRelayChat\ConcurrentNetworkApplications\obj\Debug\net6.0\ConcurrentNetworkApplications.pdb
 D:\Projects\CNAInternetRelayChat\ConcurrentNetworkApplications\obj\Debug\net6.0\ConcurrentNetworkApplications.genruntimeconfig.cache
 D:\Projects\CNAInternetRelayChat\ConcurrentNetworkApplications\obj\Debug\net6.0\ref\ConcurrentNetworkApplications.dll
+D:\Projects\CNAInternetRelayChat\ConcurrentNetworkApplications\bin\Debug\net6.0\Chess.dll
+D:\Projects\CNAInternetRelayChat\ConcurrentNetworkApplications\bin\Debug\net6.0\Chess.pdb

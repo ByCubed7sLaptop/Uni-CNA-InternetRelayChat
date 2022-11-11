@@ -2,6 +2,16 @@
   "version": 3,
   "targets": {
     "net6.0": {
+      "Chess/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/Chess.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Chess.dll": {}
+        }
+      },
       "GUI/1.0.0": {
         "type": "project",
         "compile": {
@@ -37,6 +47,11 @@
     }
   },
   "libraries": {
+    "Chess/1.0.0": {
+      "type": "project",
+      "path": "../Chess/Chess.csproj",
+      "msbuildProject": "../Chess/Chess.csproj"
+    },
     "GUI/1.0.0": {
       "type": "project",
       "path": "../GUI/GUI.csproj",
@@ -55,6 +70,7 @@
   },
   "projectFileDependencyGroups": {
     "net6.0": [
+      "Chess >= 1.0.0",
       "GUI >= 1.0.0",
       "IRC >= 1.0.0",
       "SocketConnect >= 1.0.0"
@@ -87,6 +103,9 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
+            "D:\\Projects\\CNAInternetRelayChat\\Chess\\Chess.csproj": {
+              "projectPath": "D:\\Projects\\CNAInternetRelayChat\\Chess\\Chess.csproj"
+            },
             "D:\\Projects\\CNAInternetRelayChat\\GUI\\GUI.csproj": {
               "projectPath": "D:\\Projects\\CNAInternetRelayChat\\GUI\\GUI.csproj"
             },

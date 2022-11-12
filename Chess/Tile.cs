@@ -28,34 +28,44 @@ namespace Chess
             Y = y;
         }
 
-        public static Tile operator +(Tile v1, Tile v2)
+        public static Tile operator +(Tile tile1, Tile tile2)
         {
-            return new Tile(v1.X + v2.X, v1.Y + v2.Y);
+            return new Tile(tile1.X + tile2.X, tile1.Y + tile2.Y);
         }
 
-        public static Tile operator -(Tile v1, Tile v2)
+        public static Tile operator -(Tile tile1, Tile tile2)
         {
-            return new Tile(v1.X - v2.X, v1.Y - v2.Y);
+            return new Tile(tile1.X - tile2.X, tile1.Y - tile2.Y);
         }
 
-        public static Tile operator *(Tile v1, int m)
+        public static Tile operator *(Tile tile1, int m)
         {
-            return new Tile(v1.X * m, v1.Y * m);
+            return new Tile(tile1.X * m, tile1.Y * m);
         }
 
-        public static Tile operator /(Tile v1, int m)
+        public static Tile operator /(Tile tile1, int m)
         {
-            return new Tile(v1.X / m, v1.Y / m);
+            return new Tile(tile1.X / m, tile1.Y / m);
         }
 
-        public static int Distance(Tile v1, Tile v2)
+        public static double Distance(Tile tile1, Tile tile2)
         {
-            return (int)Math.Sqrt(Math.Pow(v1.X - v2.X, 2) + Math.Pow(v1.Y - v2.Y, 2));
+            return Math.Sqrt(DistanceSquared(tile1, tile2));
+        }
+
+        public static double DistanceSquared(Tile tile1, Tile tile2)
+        {
+            return Math.Pow(tile1.X - tile2.X, 2) + Math.Pow(tile1.Y - tile2.Y, 2);
         }
 
         public double Length()
         {
-            return Math.Sqrt(X * X + Y * Y);
+            return Math.Sqrt(LengthSquared());
+        }
+
+        public int LengthSquared()
+        {
+            return X * X + Y * Y;
         }
     }
 }

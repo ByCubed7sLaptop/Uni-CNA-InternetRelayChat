@@ -81,6 +81,13 @@ namespace SocketConnect
 
             //return receivedMessage;
         }
+        public void Send(IMessage iMessage)
+        {
+            Message message = new Message();
+            message.Header = iMessage.Header;
+            message.Args = iMessage.Args();
+            Send(message);
+        }
 
         public Message? Receive()
         {
@@ -90,9 +97,10 @@ namespace SocketConnect
             byte[] bytesReceived = new byte[1024];
 
             // Receive the bytes
+            int amount = 0;
             try
             {
-                sender.Receive(bytesReceived);
+                amount = sender.Receive(bytesReceived);
             }
             catch (SocketException se)
             {
@@ -106,13 +114,11 @@ namespace SocketConnect
             }
 
             // Create the message
-            Message message = new Message().FromBytes(bytesReceived);
+            Message? message = new Message().FromBytes(bytesReceived, amount);
 
-            //for (int i = 0; i < awaitingResponses.Count; i++)
-            //    if (awaitingResponses[i].Equals(message))
-            //        awaitingResponses.RemoveAt(i);
-                    
-            InvokeOnMessageReceived(message);
+            if (message is not null) 
+                InvokeOnMessageReceived(sender, message);
+
             return message;
         }
 
@@ -122,12 +128,13 @@ namespace SocketConnect
             {
                 while (true)
                 {
-                    Message message = Receive();
+                    Message? message = Receive();
                     if (message is null) break;
 
                     if (DEBUG) Console.WriteLine("SocketConnect::Client - Recieved : {0}", message.ToString());
                 }
             });
         }
+
     }
 }

@@ -89,6 +89,11 @@ namespace Chess
 
 			List<Tile> fullMoves = piece.PieceType.GetMovement().Get(from, piece.Set, Size);
 
+			foreach (Tile move in fullMoves)
+            {
+				Console.WriteLine(move.X + ", " + move.Y);
+            }
+
 			if (!fullMoves.Contains(to) && !force) return false;
 
 			Pieces.Remove(from);

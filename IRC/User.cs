@@ -13,6 +13,7 @@ namespace IRC
     {
         public string Username { get; set; }
 
+
         public User(IPAddress ipAddr, int port, string username) : base(ipAddr, port)
         {
             Username = username;

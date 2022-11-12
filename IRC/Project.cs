@@ -9,31 +9,107 @@ int port = 11111;
 IRC.Chatroom serverChatroom = new IRC.Chatroom();
 SocketConnect.Server server = new SocketConnect.Server(ipAddr, port);
 
-//chatroom.
 
+IRC.Chatroom user1Chatroom = new IRC.Chatroom();
 IRC.User user1 = new IRC.User(ipAddr, port, "Ethan");
+
+IRC.Chatroom user2Chatroom = new IRC.Chatroom();
 IRC.User user2 = new IRC.User(ipAddr, port, "Thomas");
 
 
 Thread serverThread = new Thread(() => {
     // Hook into events
-    server.OnConnect += (s, e) => { serverChatroom._OnConnect(server, e); };
-    server.OnMessageReceived += (s, e) => { serverChatroom._OnMessageReceived(server, e); };
+    //server.OnConnect += (s, e) => { server.Broadcast(new IRC.ChatMessage("Server", "Cube Joined the Chatroom!")); };
+    server.OnMessageReceived += (s, e) => { 
+        SocketConnect.Message message = e.Message;
+        //Console.WriteLine("Chatroom::Chatroom_OnMessageReceived " + message.Header);
+
+        // Do action based on message header
+        //if (message is null)
+        //{
+        //    return;
+        //}
+        if (false) ;
+
+        // HANDSHAKE
+        else if (message.Header == "Handshake")
+        {
+            string username = message.Args[0];
+
+            // Generate a user key
+            Guid guid = Guid.NewGuid();
+
+            // Add user
+            serverChatroom.Users.Add(guid, username);
+
+
+            // Send the user key to the client
+            SocketConnect.Message messageShake = new SocketConnect.Message()
+                .Titled("Handshake")
+                .Add(guid.ToString());
+
+            SocketConnect.Server.Send(e.Client, messageShake);
+
+            // Send user joined message
+            SocketConnect.Message messageJoined = new SocketConnect.Message()
+                .Titled("UserJoined")
+                .Add(username);
+
+            server.Broadcast(messageJoined);
+
+        }
+
+        // MESSAGE
+        else if (message.Header == "ChatMessage")
+        {
+            string author = message.Args[0];
+            string contents = message.Args[1];
+
+            serverChatroom.Messages.Add(new IRC.ChatMessage(author, contents));
+            server.Broadcast(message);
+            //Console.WriteLine("Chatroom::Chatroom_OnChatMessageSent " + author + ": " + contents);
+            //Console.WriteLine(author + ": " + contents);
+        }
+    };
 
     server.Start();
 });
 
 Thread clientThread = new Thread(() => {
+    user1.OnConnect += (s, e) => { };
+    user1.OnMessageReceived += (s, e) => {
+        string header = e.Message.Header;
+
+        if (header == "") ;
+        if (header == "ChatMessage")
+        {
+            
+            IRC.ChatMessage chatMessage = new IRC.ChatMessage();
+            chatMessage.FromArgs(e.Message.Args);
+
+            //chatMessage.FromString(e.Message.ToString());
+
+            //Console.WriteLine(chatMessage.Author + ": " + chatMessage.Contents);
+            Console.WriteLine("ChatMessage");
+        } 
+        else
+        {
+            Console.WriteLine(user1.Username + " recieved message: " + header);
+        }
+
+
+    };
+
     user1.Connect();
     user1.ReceiveThread().Start();
 
     user1.Handshake();
 
     user1.Send(new IRC.ChatMessage(user1.Username, "TEST MESSAGE"));
-    user1.Send(new IRC.ChatMessage(user1.Username, "AAAAAAAAAAAA"));
-    user1.Send(new IRC.ChatMessage(user1.Username, "BBBBBBBBBB"));
-    user1.Send(new IRC.ChatMessage(user1.Username, "AAAAAAAAAAAA"));
-    user1.Send(new IRC.ChatMessage(user1.Username, "AAAAAAAAAAAA"));
+    user1.Send(new IRC.ChatMessage(user1.Username, "TEST MESSAGE 2222"));
+    user1.Send(new IRC.ChatMessage(user1.Username, "33333333333"));
+    user1.Send(new IRC.ChatMessage(user1.Username, "4"));
+    user1.Send(new IRC.ChatMessage(user1.Username, "5"));
     //user1.Send(Message.CreateDisconnect());
 });
 
@@ -54,12 +130,12 @@ Console.WriteLine("- Start");
 serverThread.Start();
 
 //Console.WriteLine("Client2 Start");
-client2Thread.Start();
+//client2Thread.Start();
 
 //Console.WriteLine("Client Start");
 clientThread.Start();
 
-client2Thread.Join();
+//client2Thread.Join();
 //Console.WriteLine("Client2 End");
 
 clientThread.Join();

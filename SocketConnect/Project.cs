@@ -2,7 +2,6 @@
 using System.Net;
 using System.Threading;
 
-
 //for (int i = 0; i < 100; i++) {
 IPHostEntry ipHost = Dns.GetHostEntry(Dns.GetHostName());
 IPAddress ipAddr = ipHost.AddressList[0];

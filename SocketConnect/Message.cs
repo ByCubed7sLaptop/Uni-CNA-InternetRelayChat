@@ -89,9 +89,9 @@ namespace SocketConnect
         }
 
 
-        public Message FromBytes(byte[] data)
+        public Message FromBytes(byte[] data, int count)
         {
-            return FromString(Encoding.UTF8.GetString(data));
+            return FromString(Encoding.UTF8.GetString(data).Substring(0, count));
         }
 
         public byte[] ToBytes()
@@ -121,5 +121,15 @@ namespace SocketConnect
         {
             return Id.GetHashCode();
         }
+    }
+
+
+
+    public interface IMessage
+    {
+        string Header { get; }
+
+        List<string> Args();
+        void FromArgs(List<string> args);
     }
 }

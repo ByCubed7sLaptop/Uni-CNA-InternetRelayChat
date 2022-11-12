@@ -115,7 +115,7 @@ namespace SocketConnect
                     if (message.Header == "Disconnect")
                         break;
 
-                    InvokeOnMessageReceived(message);
+                    InvokeOnMessageReceived(clientSocket, message);
 
                     if (isShuttingDown) break;
                 }
@@ -173,6 +173,5 @@ namespace SocketConnect
             for (int i = 0; i < clients.Count; i++)
                 TryDisconnect(clients[i]);
         }
-
     }
 }

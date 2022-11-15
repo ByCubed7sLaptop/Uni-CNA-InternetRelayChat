@@ -67,8 +67,6 @@ Thread serverThread = new Thread(() => {
 
             serverChatroom.Messages.Add(new IRC.ChatMessage(author, contents));
             server.Broadcast(message);
-            //Console.WriteLine("Chatroom::Chatroom_OnChatMessageSent " + author + ": " + contents);
-            //Console.WriteLine(author + ": " + contents);
         }
     };
 
@@ -78,26 +76,28 @@ Thread serverThread = new Thread(() => {
 Thread clientThread = new Thread(() => {
     user1.OnConnect += (s, e) => { };
     user1.OnMessageReceived += (s, e) => {
-        string header = e.Message.Header;
+        SocketConnect.Message message = e.Message;
+        string header = message.Header;
 
-        if (header == "") ;
-        if (header == "ChatMessage")
+        if (header == "Recieved") ;
+        else if (header == "ChatMessage")
         {
-            
             IRC.ChatMessage chatMessage = new IRC.ChatMessage();
             chatMessage.FromArgs(e.Message.Args);
 
-            //chatMessage.FromString(e.Message.ToString());
+            Console.WriteLine(user1.Username + " [+] " + chatMessage.Author + ": " + chatMessage.Contents);
+        }
+        else if (message.Header == "UserJoined")
+        {
+            string username = message.Args[0];
 
-            //Console.WriteLine(chatMessage.Author + ": " + chatMessage.Contents);
-            Console.WriteLine("ChatMessage");
-        } 
+            Console.WriteLine(user1.Username + " [+] " + username + " Joined!");
+
+        }
         else
         {
             Console.WriteLine(user1.Username + " recieved message: " + header);
         }
-
-
     };
 
     user1.Connect();
@@ -120,7 +120,11 @@ Thread client2Thread = new Thread(() => {
     user2.Handshake();
 
     user2.Send(new IRC.ChatMessage(user2.Username, "TEST MESSAGE 2"));
-    user2.Send(Message.CreateDisconnect());
+    user2.Send(new IRC.ChatMessage(user2.Username, "TEST MESSAGE 2"));
+    user2.Send(new IRC.ChatMessage(user2.Username, "TEST MESSAGE 2"));
+    user2.Send(new IRC.ChatMessage(user2.Username, "TEST MESSAGE 2"));
+    user2.Send(new IRC.ChatMessage(user2.Username, "TEST MESSAGE 2"));
+   // user2.Send(Message.CreateDisconnect());
 });
 
 
@@ -129,13 +133,15 @@ Console.WriteLine("- Start");
 //Console.WriteLine("Server Start");
 serverThread.Start();
 
-//Console.WriteLine("Client2 Start");
-//client2Thread.Start();
-
 //Console.WriteLine("Client Start");
 clientThread.Start();
 
-//client2Thread.Join();
+Thread.Sleep(1000);
+
+//Console.WriteLine("Client2 Start");
+client2Thread.Start();
+
+client2Thread.Join();
 //Console.WriteLine("Client2 End");
 
 clientThread.Join();

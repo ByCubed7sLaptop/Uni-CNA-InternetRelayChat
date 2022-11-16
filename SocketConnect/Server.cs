@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -14,7 +15,7 @@ namespace SocketConnect
 
         Socket listener;
 
-        List<Socket> clients;
+        SynchronizedCollection<Socket> clients;
 
         bool isShuttingDown;
 
@@ -26,7 +27,7 @@ namespace SocketConnect
                 ProtocolType.Tcp
             );
 
-            clients = new List<Socket>();
+            clients = new SynchronizedCollection<Socket>();
 
             isShuttingDown = false;
         }
@@ -160,14 +161,14 @@ namespace SocketConnect
         protected void TryDisconnect(Socket clientSocket)
         {
             if (!clientSocket.Connected) return;
+            if (DEBUG) Console.WriteLine("SocketConnect::Server - Disconnected with a client");
 
             InvokeOnDisconnect(clientSocket, listener);
-            if (DEBUG) Console.WriteLine("SocketConnect::Server - Disconnected with a client");
 
             clientSocket.Shutdown(SocketShutdown.Both);
             clientSocket.Close();
-
         }
+
         protected void TryDisconnectAll()
         {
             for (int i = 0; i < clients.Count; i++)

@@ -21,7 +21,7 @@ namespace IRC
 
         public void Handshake()
         {
-            // TODO: Add id / encryption keys / ect
+            // TODO: Add id / encryption keys / ect ect
             Send(new SocketConnect.Message()
                 .Titled("Handshake")
                 .Add(Username)

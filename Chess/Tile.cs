@@ -28,6 +28,11 @@ namespace Chess
             Y = y;
         }
 
+        public bool InRange(int range)
+        {
+            return X < range & Y < range;
+        }
+
         public static Tile operator +(Tile tile1, Tile tile2)
         {
             return new Tile(tile1.X + tile2.X, tile1.Y + tile2.Y);

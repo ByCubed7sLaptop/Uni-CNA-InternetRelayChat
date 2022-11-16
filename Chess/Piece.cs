@@ -41,6 +41,16 @@ namespace Chess
 
             return ide;
         }
+        public static bool Is(this PieceType piece, PieceType target)
+        {
+            return (piece & target) == target;
+        }
+        public static bool IsWhite(this PieceType piece) => (piece & PieceType.WHITE) == PieceType.WHITE;
+        public static bool IsSameSet(this PieceType piece, PieceType target)
+        {
+            return piece.IsWhite() ^ target.IsWhite();
+        }
+
         public static Movement GetMovement(this PieceType piece)
         {
             if      ((piece & PieceType.PAWN)   == PieceType.PAWN)   return Movement.Forward;

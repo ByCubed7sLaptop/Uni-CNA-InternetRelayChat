@@ -97,14 +97,14 @@ namespace SocketConnect
             byte[] bytesReceived = new byte[1024];
 
             // Receive the bytes
-            int amount = 0;
+            int amount;
             try
             {
                 amount = sender.Receive(bytesReceived);
             }
-            catch (SocketException se)
+            catch (SocketException e)
             {
-                if (DEBUG) Console.WriteLine("SocketConnect::Client - SocketException : {0}", se.ToString());
+                if (DEBUG) Console.WriteLine("SocketConnect::Client - SocketException : {0}", e.ToString());
                 return null;
             }
             catch (Exception e)
@@ -115,6 +115,8 @@ namespace SocketConnect
 
             // Create the message
             Message? message = new Message().FromBytes(bytesReceived, amount);
+
+            if (DEBUG) Console.WriteLine("SocketConnect::Client - Recieved : {0}", message?.ToString());
 
             if (message is not null) 
                 InvokeOnMessageReceived(sender, message);
@@ -131,7 +133,6 @@ namespace SocketConnect
                     Message? message = Receive();
                     if (message is null) break;
 
-                    if (DEBUG) Console.WriteLine("SocketConnect::Client - Recieved : {0}", message.ToString());
                 }
             });
         }

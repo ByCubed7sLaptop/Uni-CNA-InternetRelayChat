@@ -76,17 +76,45 @@ namespace Chess
 
 		//
 
-		public List<Tile> GetPieceMoves()
-        {
-			List<Tile> moves = new List<Tile>();
+		public List<Tile> GetPieceMoves(Tile tile, PieceType piece)
+		{
+			Movement movement = piece.GetMovement();
+
+			List<Tile> movementTiles = movement.Get(tile, piece);
+
+            // Whether the piece should reincure it's movement
+            // Bishops, Rooks, Queens, Hawks ect
+            if (!movement.IsRepeatable()) return movementTiles;
 			
+			List<Tile> tiles = new List<Tile>();
+
+			foreach (Tile movementTile in movementTiles)
+			{
+				Tile targetTile = tile;
+				while (targetTile.InRange(8))
+                {
+					tiles.Add(targetTile);
+
+					PieceType targetPiece = GetPiece(targetTile);
+					if (targetPiece.Is(Piece.))
+                    {
+
+                    }
+
+					targetTile += movementTile;
+
+                }
+			}
+
+			return tiles;
 			
-			
-			
-			
-			
-			return moves;
         }
+
+		public PieceType GetPiece(Tile tile)
+        {
+            Pieces.TryGetValue(tile, out PieceType piece);
+            return piece;
+		}
 
 		public bool Move(Tile from, Tile to, bool force = false)
         {

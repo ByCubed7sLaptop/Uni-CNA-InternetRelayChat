@@ -11,7 +11,8 @@ board.DebugPrint();
 Console.WriteLine();
 
 
-board.Move(Board.b2, Board.b3, true);
+board.Move(Board.b2, Board.b3);
+board.Move(Board.c1, Board.b2);
 
 
 board.DebugPrint();

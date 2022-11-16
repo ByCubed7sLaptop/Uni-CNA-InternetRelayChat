@@ -25,10 +25,6 @@ Thread serverThread = new Thread(() => {
         //Console.WriteLine("Chatroom::Chatroom_OnMessageReceived " + message.Header);
 
         // Do action based on message header
-        //if (message is null)
-        //{
-        //    return;
-        //}
         if (false) ;
 
         // HANDSHAKE
@@ -85,13 +81,19 @@ Thread clientThread = new Thread(() => {
             IRC.ChatMessage chatMessage = new IRC.ChatMessage();
             chatMessage.FromArgs(e.Message.Args);
 
-            Console.WriteLine(user1.Username + " [+] " + chatMessage.Author + ": " + chatMessage.Contents);
+            Console.WriteLine(user1.Username + " recieved: " + chatMessage.Author + ": " + chatMessage.Contents);
         }
         else if (message.Header == "UserJoined")
         {
             string username = message.Args[0];
 
-            Console.WriteLine(user1.Username + " [+] " + username + " Joined!");
+            Console.WriteLine(user1.Username + " recieved: " + username + " Joined!");
+
+        }
+        else if (message.Header == "Handshake")
+        {
+            string userId = message.Args[0];
+            Console.WriteLine(user1.Username + "'s server member id is: " + userId);
 
         }
         else
@@ -107,10 +109,10 @@ Thread clientThread = new Thread(() => {
 
     user1.Send(new IRC.ChatMessage(user1.Username, "TEST MESSAGE"));
     user1.Send(new IRC.ChatMessage(user1.Username, "TEST MESSAGE 2222"));
-    user1.Send(new IRC.ChatMessage(user1.Username, "33333333333"));
-    user1.Send(new IRC.ChatMessage(user1.Username, "4"));
-    user1.Send(new IRC.ChatMessage(user1.Username, "5"));
-    //user1.Send(Message.CreateDisconnect());
+    user1.Send(new IRC.ChatMessage(user1.Username, "TEST MESSAGE 3"));
+    user1.Send(new IRC.ChatMessage(user1.Username, "TEST MESSAGE 4"));
+    user1.Send(new IRC.ChatMessage(user1.Username, "TEST MESSAGE 5"));
+    user1.Send(Message.CreateDisconnect());
 });
 
 Thread client2Thread = new Thread(() => {
@@ -119,11 +121,7 @@ Thread client2Thread = new Thread(() => {
 
     user2.Handshake();
 
-    user2.Send(new IRC.ChatMessage(user2.Username, "TEST MESSAGE 2"));
-    user2.Send(new IRC.ChatMessage(user2.Username, "TEST MESSAGE 2"));
-    user2.Send(new IRC.ChatMessage(user2.Username, "TEST MESSAGE 2"));
-    user2.Send(new IRC.ChatMessage(user2.Username, "TEST MESSAGE 2"));
-    user2.Send(new IRC.ChatMessage(user2.Username, "TEST MESSAGE 2"));
+    user2.Send(new IRC.ChatMessage(user2.Username, "I am Thomas"));
    // user2.Send(Message.CreateDisconnect());
 });
 

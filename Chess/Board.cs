@@ -3,44 +3,38 @@ using System.Numerics;
 
 namespace Chess
 {
-	public enum Set
-	{
-		WHITE = 1, BLACK = -1
-	}
-
-
-	static class SetMethods
-	{
-		public static string Ide(this Set set)
-		{
-			switch (set)
-			{
-				case Set.BLACK: return "B";
-				case Set.WHITE: return "W";
-				default: return "?";
-			}
-		}
-		// Returns a unit tile pointing it's forward direction
-		// This could allows you to have 4 players... for example
-		public static Tile Forward(this Set set)
-		{
-			if (set == Set.WHITE) return Tile.Up;
-			if (set == Set.BLACK) return Tile.Down;
-			return Tile.Zero;
-		}
-	}
-
 	// A board state
 	public partial class Board
 	{
 		public Tile Size { get; private set; }
 
-		public Dictionary<Tile, Piece> Pieces { get; private set; }
+		public Dictionary<Tile, PieceType> Pieces { get; private set; }
+
+		public State state;
+
+		/// <summary>Result of the current board. </summary>
+		public enum State
+		{
+			/// <summary>On going</summary>
+			OnGoing,
+			/// <summary>3 times the same board</summary>
+			ThreeFoldRepeat,
+			/// <summary>50 times without moving a pawn or eating a piece</summary>
+			FiftyRuleRepeat,
+			/// <summary>No more move for the next player</summary>
+			TieNoMove,
+			/// <summary>Not enough pieces to do a check mate</summary>
+			TieNoMatePossible,
+			/// <summary>Check</summary>
+			//Check,
+			/// <summary>Checkmate</summary>
+			Mate
+		}
 
 		public Board()
         {
 			Size = Tile.One * 8;
-			Pieces = new Dictionary<Tile, Piece>();
+			Pieces = new Dictionary<Tile, PieceType>();
 
 			Default();
 		}
@@ -65,34 +59,44 @@ namespace Chess
 				PlaceMirrored(new Tile(x, 0), order[x]);
         }
 
-		public void Place(Tile tile, PieceType type, Set set)
+		public void Place(Tile tile, PieceType pieceType)
 		{
 			Debug.Assert(tile.X < Size.X, "Tile out of range (X)");
 			Debug.Assert(tile.Y < Size.Y, "Tile out of range (Y)");
 
-			Piece piece = new Piece(type, set);
-			Pieces.Add(tile, piece);
+			Pieces.Add(tile, pieceType);
 		}
 
 		public void PlaceMirrored(Tile tile, PieceType type)
 		{
-			Place(tile, type, Set.WHITE);
+			Place(tile, type | PieceType.WHITE);
 			Tile mirrored = new Tile(tile.X, (Size.Y - 1) - tile.Y);;
-			Place(mirrored, type, Set.BLACK);
+			Place(mirrored, type | PieceType.BLACK);
 		}
 
 		//
 
+		public List<Tile> GetPieceMoves()
+        {
+			List<Tile> moves = new List<Tile>();
+			
+			
+			
+			
+			
+			
+			return moves;
+        }
+
 		public bool Move(Tile from, Tile to, bool force = false)
         {
-			Piece piece = Pieces[from];
+			PieceType piece = Pieces[from];
 
-			List<Tile> fullMoves = piece.PieceType.GetMovement().Get(from, piece.Set, Size);
+			List<Tile> fullMoves = piece.GetMovement().Get(from, piece);
 
 			foreach (Tile move in fullMoves)
-            {
-				Console.WriteLine(move.X + ", " + move.Y);
-            }
+				Console.WriteLine(piece.Ide() + " move: " + move.X + ", " + move.Y);
+            
 
 			if (!fullMoves.Contains(to) && !force) return false;
 
@@ -101,6 +105,7 @@ namespace Chess
 
 			return true;
 		}
+
 
 
 		//
@@ -115,13 +120,8 @@ namespace Chess
 					Tile tile = new Tile(x, Size.Y - y - 1);
 					if (Pieces.ContainsKey(tile))
                     {
-						Piece piece = Pieces[tile];
-						Console.Write(
-							piece.Set.Ide() + 
-							piece.PieceType.Ide() + 
-							" "
-						);
-
+						PieceType piece = Pieces[tile];
+						Console.Write(piece.Ide() + " ");
                     }
 					else
 						Console.Write("-- ");

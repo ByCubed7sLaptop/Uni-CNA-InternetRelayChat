@@ -6,27 +6,70 @@ using System.Threading.Tasks;
 
 namespace Chess
 {
-    public struct Piece
+    [Flags]
+    public enum PieceType : byte
     {
-        public PieceType PieceType { get; set; }
-        public Set Set { get; set; }
+        None = 0,
 
-        public Piece(PieceType pieceType, Set set)
+        WHITE = 1,
+        BLACK = 2,
+
+        PAWN    = 4,
+        KNIGHT  = 8,
+        BISHOP  = 16,
+        ROOK    = 32,
+        QUEEN   = 64,
+        KING    = 128
+    }
+
+
+    static class PieceTypeMethods
+    {
+        public static string Ide(this PieceType piece)
         {
-            PieceType = pieceType;
-            Set = set;
+            string ide = "";
+
+            if ((piece & PieceType.WHITE) == PieceType.WHITE) ide += "w";
+            if ((piece & PieceType.BLACK) == PieceType.BLACK) ide += "b";
+
+            if ((piece & PieceType.PAWN)    == PieceType.PAWN)  ide += "P";
+            if ((piece & PieceType.KNIGHT)  == PieceType.KNIGHT) ide += "N";
+            if ((piece & PieceType.BISHOP)  == PieceType.BISHOP) ide += "B";
+            if ((piece & PieceType.ROOK)    == PieceType.ROOK)  ide += "R";
+            if ((piece & PieceType.QUEEN)   == PieceType.QUEEN) ide += "Q";
+            if ((piece & PieceType.KING)    == PieceType.KING)  ide += "K";
+
+            return ide;
+        }
+        public static Movement GetMovement(this PieceType piece)
+        {
+            if      ((piece & PieceType.PAWN)   == PieceType.PAWN)   return Movement.Forward;
+            else if ((piece & PieceType.KNIGHT) == PieceType.KNIGHT) return Movement.L;
+            else if ((piece & PieceType.BISHOP) == PieceType.BISHOP) return Movement.Diagonal;
+            else if ((piece & PieceType.ROOK)   == PieceType.ROOK)   return Movement.RankFile;
+            else if ((piece & PieceType.QUEEN)  == PieceType.QUEEN)  return Movement.RankFile | Movement.Diagonal;
+            else if ((piece & PieceType.KING)   == PieceType.KING)   return Movement.RankFile | Movement.Diagonal;
+            return Movement.None;
+        }
+        public static Movement GetCapture(this PieceType piece)
+        {
+            // Only different for the pawn, same as movement for everything else
+            // Does NOT consider en passant capture
+            if      ((piece & PieceType.PAWN)   == PieceType.PAWN)   return Movement.DiagonallyForward;
+            return GetMovement(piece);
+        }
+
+        public static int GetValue(this PieceType piece)
+        {
+            if      ((piece & PieceType.PAWN)   == PieceType.PAWN)   return 1;
+            else if ((piece & PieceType.KNIGHT) == PieceType.KNIGHT) return 3;
+            else if ((piece & PieceType.BISHOP) == PieceType.BISHOP) return 3;
+            else if ((piece & PieceType.ROOK)   == PieceType.ROOK)   return 5;
+            else if ((piece & PieceType.QUEEN)  == PieceType.QUEEN)  return 9;
+            return 0;
         }
     }
 
-    public enum PieceType
-	{
-		PAWN,
-		KNIGHT,
-		BISHOP,
-		ROOK,
-		QUEEN,
-		KING
-	}
 
     [Flags]
     public enum Movement
@@ -35,69 +78,15 @@ namespace Chess
         Forward, // Pawn
         DiagonallyForward, // Pawn
         L, // Knight
-        RankFile, // Rook, Queen
-        Diagonal, // Bishop, Queen
-        Surround // King
+        RankFile, // Rook, Queen, King
+        Diagonal, // Bishop, Queen, King
     }
-
-
-    static class PieceTypeMethods
-    {
-        public static string Ide(this PieceType piece)
-        {
-            switch (piece)
-            {
-                case PieceType.PAWN: return "P";
-                case PieceType.KNIGHT: return "N";
-                case PieceType.BISHOP: return "B";
-                case PieceType.ROOK: return "R";
-                case PieceType.QUEEN: return "Q";
-                case PieceType.KING: return "K";
-                default: return "?";
-            }
-        }
-        public static Movement GetMovement(this PieceType piece)
-        {
-            switch (piece)
-            {
-                case PieceType.PAWN: return Movement.Forward;
-                case PieceType.KNIGHT: return Movement.L;
-                case PieceType.BISHOP: return Movement.Diagonal;
-                case PieceType.ROOK: return Movement.RankFile;
-                case PieceType.QUEEN: return Movement.RankFile | Movement.Diagonal;
-                case PieceType.KING: return Movement.Surround;
-                default: return Movement.None;
-            }
-        }
-        public static Movement GetCapture(this PieceType piece)
-        {
-            // Only different for the pawn, same as movement for everything else
-            // Does NOT consider en passant capture
-            if (piece == PieceType.PAWN) return Movement.DiagonallyForward;
-            return GetMovement(piece);
-        }
-
-        public static int GetValue(this PieceType piece)
-        {
-            switch (piece)
-            {
-                case PieceType.PAWN: return 1;
-                case PieceType.KNIGHT: return 3;
-                case PieceType.BISHOP: return 3;
-                case PieceType.ROOK: return 5;
-                case PieceType.QUEEN: return 9;
-                case PieceType.KING: return 0;
-                default: return 0;
-            }
-        }
-    }
-
 
     static class MovementMethods
     {
-
-        public static List<Tile> Get(this Movement movement, Tile tile, Set set, Tile range)
+        public static List<Tile> Get(this Movement movement, Tile tile, PieceType piece)
         {
+            int range = 8;
             List<Tile> tiles = new List<Tile>();
 
             if (movement == Movement.None) return tiles;
@@ -105,18 +94,18 @@ namespace Chess
             // Forward
             if ((movement & Movement.Forward) == Movement.Forward)
             {
-                tiles.Add(tile + set.Forward());
+                tiles.Add(tile + piece.Forward());
 
                 // First move can advance two squares along the same file
-                if (tile.File == (set.Forward().File * 2 % range.File))
-                    tiles.Add(tile + set.Forward() * 2);
+                if (tile.File == (piece.Forward().File * 2 % range))
+                    tiles.Add(tile + piece.Forward() * 2);
             }
 
             // DiagonallyForward
             if ((movement & Movement.DiagonallyForward) == Movement.DiagonallyForward)
             {
-                tiles.Add(tile + set.Forward() + Tile.Right);
-                tiles.Add(tile + set.Forward() + Tile.Left);
+                tiles.Add(tile + piece.Forward() + Tile.Right);
+                tiles.Add(tile + piece.Forward() + Tile.Left);
             }
 
             // L
@@ -133,27 +122,17 @@ namespace Chess
             }
 
             // RankFile
-            if ((movement & Movement.L) == Movement.L)
-            {
-                for (int x = 0; x < range.X; x++) tiles.Add(new Tile(x, tile.Y));
-                for (int y = 0; y < range.Y; y++) tiles.Add(new Tile(tile.X, y));
-            }
-
-            // Diagonal
-            if ((movement & Movement.Diagonal) == Movement.Diagonal)
-            {
-                int dia = Math.Min(range.X, range.Y);
-                for (int i = 0; i < dia; i++) tiles.Add(new Tile(i, i + tile.Y - tile.X));
-                for (int i = 0; i < dia; i++) tiles.Add(new Tile(i + tile.X - tile.Y, i));
-            }
-
-            // Surround
-            if ((movement & Movement.Surround) == Movement.Surround)
+            if ((movement & Movement.RankFile) == Movement.RankFile)
             {
                 tiles.Add(tile + Tile.Up);
                 tiles.Add(tile + Tile.Down);
                 tiles.Add(tile + Tile.Left);
                 tiles.Add(tile + Tile.Right);
+            }
+
+            // Diagonal
+            if ((movement & Movement.Diagonal) == Movement.Diagonal)
+            {
                 tiles.Add(tile + Tile.Up + Tile.Left);
                 tiles.Add(tile + Tile.Up + Tile.Right);
                 tiles.Add(tile + Tile.Down + Tile.Left);
@@ -161,6 +140,23 @@ namespace Chess
             }
 
             return tiles;
+        }
+
+
+        // Returns a unit tile pointing it's forward direction
+        // This could allows you to have 4 players... for example
+        public static Tile Forward(this PieceType piece)
+        {
+            if ((piece & PieceType.WHITE) == PieceType.WHITE) return Tile.Up;
+            if ((piece & PieceType.BLACK) == PieceType.BLACK) return Tile.Down;
+            return Tile.Zero;
+        }
+
+        public static bool IsRepeatable(this Movement movement)
+        {
+            if ((movement & Movement.RankFile) == Movement.RankFile) return true;
+            if ((movement & Movement.Diagonal) == Movement.Diagonal) return true;
+            return false;
         }
     }
 }

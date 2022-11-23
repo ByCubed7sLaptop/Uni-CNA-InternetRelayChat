@@ -1,0 +1,5 @@
+D:\Projects\CNAInternetRelayChat\ConcurrentNetworkApplications\obj\Debug\net5.0-windows\ConcurrentNetworkApplications.csproj.AssemblyReference.cache
+D:\Projects\CNAInternetRelayChat\ConcurrentNetworkApplications\obj\Debug\net5.0-windows\ConcurrentNetworkApplications.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects\CNAInternetRelayChat\ConcurrentNetworkApplications\obj\Debug\net5.0-windows\ConcurrentNetworkApplications.AssemblyInfoInputs.cache
+D:\Projects\CNAInternetRelayChat\ConcurrentNetworkApplications\obj\Debug\net5.0-windows\ConcurrentNetworkApplications.AssemblyInfo.cs
+D:\Projects\CNAInternetRelayChat\ConcurrentNetworkApplications\obj\Debug\net5.0-windows\ConcurrentNetworkApplications.csproj.CoreCompileInputs.cache

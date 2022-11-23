@@ -1,0 +1,5 @@
+D:\Projects\CNAInternetRelayChat\SocketConnect\obj\Debug\net5.0\SocketConnect.csproj.AssemblyReference.cache
+D:\Projects\CNAInternetRelayChat\SocketConnect\obj\Debug\net5.0\SocketConnect.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects\CNAInternetRelayChat\SocketConnect\obj\Debug\net5.0\SocketConnect.AssemblyInfoInputs.cache
+D:\Projects\CNAInternetRelayChat\SocketConnect\obj\Debug\net5.0\SocketConnect.AssemblyInfo.cs
+D:\Projects\CNAInternetRelayChat\SocketConnect\obj\Debug\net5.0\SocketConnect.csproj.CoreCompileInputs.cache

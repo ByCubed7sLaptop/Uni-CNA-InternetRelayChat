@@ -24,36 +24,28 @@ Thread serverThread = new Thread(() => {
         SocketConnect.Packet message = e.Packet;
         //Console.WriteLine("Chatroom::Chatroom_OnMessageReceived " + message);
 
-        // Do action based on message header
-
         // HANDSHAKE
-        if (message is IRC.Handshake)
+        if (message is IRC.Handshake handshake)
         {
-            IRC.Handshake handshake = (IRC.Handshake)message;
-            string username = handshake.Username;
-
             // Generate a user key
             Guid guid = Guid.NewGuid();
 
             // Add user
-            serverChatroom.Users.Add(guid, username);
+            serverChatroom.Users.Add(guid, handshake.Username);
 
-
-            // Send the user key to the client
-            IRC.Handshake messageShake = new IRC.Handshake(username, guid);
-
-            SocketConnect.Server.Send(e.Client, messageShake);
+            // Send the handshake with the new GUID
+            handshake.Guid = Guid.NewGuid();
+            SocketConnect.Server.Send(e.Client, handshake);
 
             // Send user joined message
-            IRC.UserJoined messageJoined = new IRC.UserJoined(username);
+            IRC.UserJoined messageJoined = new IRC.UserJoined(handshake.Username);
 
             server.Broadcast(messageJoined);
         }
 
         // MESSAGE
-        else if (message is IRC.ChatMessage)
+        else if (message is IRC.ChatMessage chatMessage)
         {
-            IRC.ChatMessage chatMessage = (IRC.ChatMessage) message;
             serverChatroom.Messages.Add(chatMessage);
             server.Broadcast(message); //?
         }
@@ -68,29 +60,19 @@ Thread clientThread = new Thread(() => {
 
         SocketConnect.Packet message = e.Packet;
 
-        if (false) ;
-        else if (message is IRC.ChatMessage)
-        {
-            IRC.ChatMessage chatMessage = (IRC.ChatMessage)message;
+        if (message is IRC.ChatMessage chatMessage)
             Console.WriteLine(user1.Username + " recieved: " + chatMessage.Author + ": " + chatMessage.Contents);
-        }
 
-        else if (message is IRC.UserJoined)
-        {
-            IRC.UserJoined userJoined = (IRC.UserJoined)message;
+        else if (message is IRC.UserJoined userJoined)
             Console.WriteLine(user1.Username + " recieved: " + userJoined.Username + " Joined!");
-        }
 
-        else if (message is IRC.Handshake)
-        {
-            IRC.Handshake handshake = (IRC.Handshake)message;
+        else if (message is IRC.Handshake handshake)
             Console.WriteLine(user1.Username + "'s server member id is: " + handshake.Guid);
-        }
 
         else
-        {
-            Console.WriteLine(user1.Username + " recieved message: " + message.Id);
-        }
+            ;// Console.WriteLine(user1.Username + " recieved message: " + message.Id);
+            
+        
     };
 
     user1.Connect();

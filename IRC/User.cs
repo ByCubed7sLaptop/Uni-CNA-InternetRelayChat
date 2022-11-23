@@ -20,8 +20,12 @@ namespace IRC
         public void Handshake()
         {
             // TODO: Add id / encryption keys / ect ect
-            Send(new IRC.Handshake(Username, null)
-            );
+            Send(new IRC.Handshake(Username, null));
+        }
+
+        public void SendMessage(string message)
+        {
+            Send(new IRC.ChatMessage(Username, message));
         }
     }
 }

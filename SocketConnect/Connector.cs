@@ -66,6 +66,7 @@ namespace SocketConnect
             eventHandler(this, new PacketEventArgs(client, package));
         }
 
+
         public class PacketEventArgs : EventArgs
         {
             public Packet Packet { get; set; }

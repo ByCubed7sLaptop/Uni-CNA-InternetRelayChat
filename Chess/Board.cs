@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Numerics;
 
-namespace Chess
+namespace CubedChess
 {
 	// A board state
 	public partial class Board
@@ -81,9 +81,10 @@ namespace Chess
 			Movement movement = piece.GetMovement();
             List<Tile> movementTiles = movement.Get(piece);
 
+				Console.WriteLine("A- - - - - - - - - - - - - - - - - - - - - - - - - - - - - ");
 			foreach (Tile movementTile in movementTiles)
 				Console.WriteLine(movementTile.X + " " + movementTile.Y);
-				Console.WriteLine("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - ");
+				Console.WriteLine("B- - - - - - - - - - - - - - - - - - - - - - - - - - - - - ");
 
 			moves = new HashSet<Tile>();
 			takes = new HashSet<Tile>();
@@ -108,21 +109,21 @@ namespace Chess
 
 			foreach (Tile movementTile in movementTiles)
 			{
-				Tile targetTile = tile + movementTile;
+				Tile targetTile = tile;
 				while (targetTile.InRange(8))
                 {
 					moves.Add(targetTile);
 
 					targetTile += movementTile;
-
 					PieceType targetPiece = GetPiece(targetTile);
-					if (targetPiece != PieceType.None)
-					{
-						if (!targetPiece.IsSameSet(piece))
-							takes.Add(targetTile);
-						break;
-					}
-				}
+
+                    if (targetPiece != PieceType.None)
+                    {
+                        if (!targetPiece.IsSameSet(piece))
+                            takes.Add(targetTile);
+                        break;
+                    }
+                }
 			}			
         }
 
@@ -139,6 +140,7 @@ namespace Chess
 			//List<Tile> fullMoves = piece.GetMovement().Get(from, piece);
 			GetPieceMoves(from, piece, out HashSet<Tile> moves, out HashSet<Tile> takes);
 
+			Console.WriteLine("- - - - - - - - - - - - ");
 			foreach (Tile move in moves) Console.WriteLine(piece.Ide() + " moves: " + move.X + ", " + move.Y);
 			foreach (Tile take in takes) Console.WriteLine(piece.Ide() + " takes: " + take.X + ", " + take.Y);
 

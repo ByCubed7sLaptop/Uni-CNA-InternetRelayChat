@@ -10,7 +10,7 @@ namespace IRC
     [Serializable]
     public class Handshake : Packet
     {
-        public Guid? Guid { get; }
+        public Guid? Guid { get; set; }
         public string Username { get; }
 
         public Handshake(string username, Guid? guid)

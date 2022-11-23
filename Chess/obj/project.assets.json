@@ -13,9 +13,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Projects\\CNAInternetRelayChat\\Chess\\Chess.csproj",
-      "projectName": "Chess",
-      "projectPath": "D:\\Projects\\CNAInternetRelayChat\\Chess\\Chess.csproj",
+      "projectUniqueName": "D:\\Projects\\CNAInternetRelayChat\\Chess\\CubedChess.csproj",
+      "projectName": "CubedChess",
+      "projectPath": "D:\\Projects\\CNAInternetRelayChat\\Chess\\CubedChess.csproj",
       "packagesPath": "C:\\Users\\ByCubed7\\.nuget\\packages\\",
       "outputPath": "D:\\Projects\\CNAInternetRelayChat\\Chess\\obj\\",
       "projectStyle": "PackageReference",

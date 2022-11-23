@@ -1,8 +1,8 @@
-﻿using Chess;
+﻿using CubedChess;
 
 Console.WriteLine("Hello, ConcurrentNetworkApplications!");
 
-Board board = new Chess.Board();
+Board board = new CubedChess.Board();
 
 board.DebugPrint();
 Console.WriteLine();
@@ -17,6 +17,8 @@ Console.WriteLine();
 board.DebugPrintNumbers();
 Console.WriteLine();
 
+
+GUI.MainMenu window = new GUI.MainMenu();
 
 
 

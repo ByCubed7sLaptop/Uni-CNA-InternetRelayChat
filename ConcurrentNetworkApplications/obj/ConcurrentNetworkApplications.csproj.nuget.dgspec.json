@@ -4,12 +4,12 @@
     "D:\\Projects\\CNAInternetRelayChat\\ConcurrentNetworkApplications\\ConcurrentNetworkApplications.csproj": {}
   },
   "projects": {
-    "D:\\Projects\\CNAInternetRelayChat\\Chess\\Chess.csproj": {
+    "D:\\Projects\\CNAInternetRelayChat\\Chess\\CubedChess.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Projects\\CNAInternetRelayChat\\Chess\\Chess.csproj",
-        "projectName": "Chess",
-        "projectPath": "D:\\Projects\\CNAInternetRelayChat\\Chess\\Chess.csproj",
+        "projectUniqueName": "D:\\Projects\\CNAInternetRelayChat\\Chess\\CubedChess.csproj",
+        "projectName": "CubedChess",
+        "projectPath": "D:\\Projects\\CNAInternetRelayChat\\Chess\\CubedChess.csproj",
         "packagesPath": "C:\\Users\\ByCubed7\\.nuget\\packages\\",
         "outputPath": "D:\\Projects\\CNAInternetRelayChat\\Chess\\obj\\",
         "projectStyle": "PackageReference",
@@ -82,8 +82,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "D:\\Projects\\CNAInternetRelayChat\\Chess\\Chess.csproj": {
-                "projectPath": "D:\\Projects\\CNAInternetRelayChat\\Chess\\Chess.csproj"
+              "D:\\Projects\\CNAInternetRelayChat\\Chess\\CubedChess.csproj": {
+                "projectPath": "D:\\Projects\\CNAInternetRelayChat\\Chess\\CubedChess.csproj"
               },
               "D:\\Projects\\CNAInternetRelayChat\\GUI\\GUI.csproj": {
                 "projectPath": "D:\\Projects\\CNAInternetRelayChat\\GUI\\GUI.csproj"
@@ -131,13 +131,13 @@
         "projectName": "GUI",
         "projectPath": "D:\\Projects\\CNAInternetRelayChat\\GUI\\GUI.csproj",
         "frameworks": {
-          "net472": {
+          "net48": {
             "projectReferences": {}
           }
         }
       },
       "frameworks": {
-        "net472": {}
+        "net48": {}
       }
     },
     "D:\\Projects\\CNAInternetRelayChat\\IRC\\IRC.csproj": {

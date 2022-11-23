@@ -27,8 +27,6 @@ D:\Projects\CNAInternetRelayChat\ConcurrentNetworkApplications\obj\Debug\net6.0\
 D:\Projects\CNAInternetRelayChat\ConcurrentNetworkApplications\obj\Debug\net6.0\ConcurrentNetworkApplications.pdb
 D:\Projects\CNAInternetRelayChat\ConcurrentNetworkApplications\obj\Debug\net6.0\ConcurrentNetworkApplications.genruntimeconfig.cache
 D:\Projects\CNAInternetRelayChat\ConcurrentNetworkApplications\obj\Debug\net6.0\ref\ConcurrentNetworkApplications.dll
-D:\Projects\CNAInternetRelayChat\ConcurrentNetworkApplications\bin\Debug\net6.0\Chess.dll
-D:\Projects\CNAInternetRelayChat\ConcurrentNetworkApplications\bin\Debug\net6.0\Chess.pdb
 D:\Projects\CNAInternetRelayChat\ConcurrentNetworkApplications\bin\Debug\net6.0\Microsoft.Bcl.AsyncInterfaces.dll
 D:\Projects\CNAInternetRelayChat\ConcurrentNetworkApplications\bin\Debug\net6.0\Microsoft.Extensions.ObjectPool.dll
 D:\Projects\CNAInternetRelayChat\ConcurrentNetworkApplications\bin\Debug\net6.0\Microsoft.Win32.SystemEvents.dll
@@ -58,3 +56,5 @@ D:\Projects\CNAInternetRelayChat\ConcurrentNetworkApplications\bin\Debug\net6.0\
 D:\Projects\CNAInternetRelayChat\ConcurrentNetworkApplications\bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll
 D:\Projects\CNAInternetRelayChat\ConcurrentNetworkApplications\bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.0\System.Security.Cryptography.Pkcs.dll
 D:\Projects\CNAInternetRelayChat\ConcurrentNetworkApplications\bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.0\System.Windows.Extensions.dll
+D:\Projects\CNAInternetRelayChat\ConcurrentNetworkApplications\bin\Debug\net6.0\CubedChess.dll
+D:\Projects\CNAInternetRelayChat\ConcurrentNetworkApplications\bin\Debug\net6.0\CubedChess.pdb

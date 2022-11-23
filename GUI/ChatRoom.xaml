@@ -40,7 +40,16 @@
         <Rectangle Margin="2,2,2,5" Stroke="Black" Grid.Column="2" Grid.Row="1"/>
         <Button x:Name="SendButton" Grid.Column="2" Content="Send" HorizontalAlignment="Stretch" Margin="2,2,2,5" Grid.Row="1" VerticalAlignment="Stretch" Background="{DynamicResource Highlight}"/>
 
-        <ListBox x:Name="MessageContainer" Margin="2,2,2,5" Grid.Column="1" Grid.ColumnSpan="2" d:ItemsSource="{d:SampleData ItemCount=50}"/>
+        <ListBox x:Name="MessageContainer" Margin="2,2,2,5" Grid.Column="1" Grid.ColumnSpan="2" d:ItemsSource="{d:SampleData ItemCount=50}">
+            <ListBox.ContextMenu>
+                <ContextMenu StaysOpen="true">
+                    <MenuItem Header="Add" Click="InternalAddButton_Click"/>
+                    <MenuItem Header="Delete" Click="InternalDeleteButton_Click"/>
+                    <MenuItem Header="Edit" Click="InternalEditButton_Click"/>
+                </ContextMenu>
+            </ListBox.ContextMenu>
+        </ListBox>
+
 
 
 

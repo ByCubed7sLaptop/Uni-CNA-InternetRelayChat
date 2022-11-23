@@ -12,9 +12,6 @@ namespace GUI
     /// </summary>
     public partial class ChatRoom : Window
     {
-
-        public List<string> strings = new List<string>();
-
         public ChatRoom()
         {
             InitializeComponent();
@@ -46,6 +43,23 @@ namespace GUI
 
         // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+        private void InternalAddButton_Click(object sender, RoutedEventArgs e)
+        {
+            Console.WriteLine("InternalAddButton_Click");
+        }
+
+        private void InternalDeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            Console.WriteLine("InternalDeleteButton_Click");
+        }
+
+        private void InternalEditButton_Click(object sender, RoutedEventArgs e)
+        {
+            Console.WriteLine("InternalEditButton_Click");
+        }
+
+        // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 
         // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
         // Interactions
@@ -62,8 +76,6 @@ namespace GUI
             // representing the plain text content of the TextRange.
             string message = textRange.Text.Trim();
 
-            Console.WriteLine("MESSAGE: " + message);
-
             // Clear the contents
             MessageInput.Document = new FlowDocument();
 
@@ -72,7 +84,7 @@ namespace GUI
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
-            InvokeLeave(new LeaveEventArgs());
+            InvokeLeave();
 
             // Change page to main
         }
@@ -84,7 +96,7 @@ namespace GUI
 
 
         // When the client attempts to send a message
-        public event EventHandler<SendMessageEventArgs> OnSendMessage;
+        public event EventHandler<SendMessageEventArgs>? OnSendMessage;
         protected virtual void InvokeSendMessage(string message)
         {
             var handler = OnSendMessage;
@@ -100,11 +112,11 @@ namespace GUI
 
 
         // When the client attempts to send a message
-        public event EventHandler<LeaveEventArgs> OnLeave;
-        protected virtual void InvokeLeave(LeaveEventArgs e)
+        public event EventHandler<LeaveEventArgs>? OnLeave;
+        protected virtual void InvokeLeave()
         {
             var handler = OnLeave;
-            handler?.Invoke(this, e);
+            handler?.Invoke(this, new LeaveEventArgs());
         }
         public class LeaveEventArgs : EventArgs { }
     }

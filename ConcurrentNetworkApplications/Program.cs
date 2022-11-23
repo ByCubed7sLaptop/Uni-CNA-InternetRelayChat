@@ -9,13 +9,14 @@ namespace ConcurrentNetworkApplications
         [STAThread]
         static void Main(string[] args)
         {
-            
-            //GUI.MainMenu window = new GUI.MainMenu();
+
+            GUI.ChatRoom window = new();
 
             //window.Title = "WPF in Console";
             //window.Width = 400;
             //window.Height = 300;
-            //window.ShowDialog();
+            window.ShowDialog();
+            //window.
 
 
 

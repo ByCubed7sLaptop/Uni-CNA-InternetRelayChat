@@ -1,7 +1,7 @@
 {
   "version": 3,
   "targets": {
-    "net6.0": {
+    "net6.0-windows7.0": {
       "Microsoft.Bcl.AsyncInterfaces/5.0.0": {
         "type": "package",
         "compile": {
@@ -299,12 +299,16 @@
       },
       "GUI/1.0.0": {
         "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
         "compile": {
           "bin/placeholder/GUI.dll": {}
         },
         "runtime": {
           "bin/placeholder/GUI.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.WindowsDesktop.App.WPF"
+        ]
       },
       "IRC/1.0.0": {
         "type": "project",
@@ -1009,7 +1013,7 @@
     }
   },
   "projectFileDependencyGroups": {
-    "net6.0": [
+    "net6.0-windows7.0": [
       "CubedChess >= 1.0.0",
       "GUI >= 1.0.0",
       "IRC >= 1.0.0",
@@ -1033,15 +1037,15 @@
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
-        "net6.0"
+        "net6.0-windows7.0"
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
-        "net6.0": {
-          "targetAlias": "net6.0",
+        "net6.0-windows7.0": {
+          "targetAlias": "net6.0-windows",
           "projectReferences": {
             "D:\\Projects\\CNAInternetRelayChat\\Chess\\CubedChess.csproj": {
               "projectPath": "D:\\Projects\\CNAInternetRelayChat\\Chess\\CubedChess.csproj"
@@ -1065,8 +1069,8 @@
       }
     },
     "frameworks": {
-      "net6.0": {
-        "targetAlias": "net6.0",
+      "net6.0-windows7.0": {
+        "targetAlias": "net6.0-windows",
         "imports": [
           "net461",
           "net462",

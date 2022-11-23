@@ -1,17 +1,15 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net6.0-windows</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Chess\CubedChess.csproj" />
-    <ProjectReference Include="..\GUI\GUI.csproj">
-      <CopyLocal></CopyLocal>
-    </ProjectReference>
+    <ProjectReference Include="..\GUI\GUI.csproj" />
     <ProjectReference Include="..\IRC\IRC.csproj" />
     <ProjectReference Include="..\SocketConnect\SocketConnect.csproj" />
   </ItemGroup>

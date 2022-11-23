@@ -30,7 +30,7 @@ namespace Chess
 
         public bool InRange(int range)
         {
-            return X < range & Y < range;
+            return X >= 0 & Y >= 0 & X < range & Y < range;
         }
 
         public static Tile operator +(Tile tile1, Tile tile2)

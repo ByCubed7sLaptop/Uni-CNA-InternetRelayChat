@@ -83,19 +83,19 @@ Thread clientThread = new Thread(() => {
 
             Console.WriteLine(user1.Username + " recieved: " + chatMessage.Author + ": " + chatMessage.Contents);
         }
+
         else if (message.Header == "UserJoined")
         {
             string username = message.Args[0];
-
             Console.WriteLine(user1.Username + " recieved: " + username + " Joined!");
-
         }
+
         else if (message.Header == "Handshake")
         {
             string userId = message.Args[0];
             Console.WriteLine(user1.Username + "'s server member id is: " + userId);
-
         }
+
         else
         {
             Console.WriteLine(user1.Username + " recieved message: " + header);

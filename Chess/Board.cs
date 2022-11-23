@@ -76,38 +76,54 @@ namespace Chess
 
 		//
 
-		public List<Tile> GetPieceMoves(Tile tile, PieceType piece)
+		public void GetPieceMoves(Tile tile, PieceType piece, out HashSet<Tile> moves, out HashSet<Tile> takes)
 		{
 			Movement movement = piece.GetMovement();
+            List<Tile> movementTiles = movement.Get(piece);
 
-			List<Tile> movementTiles = movement.Get(tile, piece);
+			foreach (Tile movementTile in movementTiles)
+				Console.WriteLine(movementTile.X + " " + movementTile.Y);
+				Console.WriteLine("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - ");
 
-            // Whether the piece should reincure it's movement
-            // Bishops, Rooks, Queens, Hawks ect
-            if (!movement.IsRepeatable()) return movementTiles;
-			
-			List<Tile> tiles = new List<Tile>();
+			moves = new HashSet<Tile>();
+			takes = new HashSet<Tile>();
+
+			// Whether the piece should reincure it's movement
+			// Bishops, Rooks, Queens, Hawks ect
+			if (!movement.IsRepeatable())
+            {
+				foreach (Tile movementTile in movementTiles)
+				{
+					Tile targetTile = tile + movementTile;
+					moves.Add(targetTile); //= movementTiles
+					PieceType targetPiece = GetPiece(targetTile);
+					if (targetPiece != PieceType.None)
+					{
+						if (!targetPiece.IsSameSet(piece))
+							takes.Add(targetTile);	
+					}
+				}
+				return;
+            }
 
 			foreach (Tile movementTile in movementTiles)
 			{
-				Tile targetTile = tile;
+				Tile targetTile = tile + movementTile;
 				while (targetTile.InRange(8))
                 {
-					tiles.Add(targetTile);
-
-					PieceType targetPiece = GetPiece(targetTile);
-					if (targetPiece.Is(Piece.))
-                    {
-
-                    }
+					moves.Add(targetTile);
 
 					targetTile += movementTile;
 
-                }
-			}
-
-			return tiles;
-			
+					PieceType targetPiece = GetPiece(targetTile);
+					if (targetPiece != PieceType.None)
+					{
+						if (!targetPiece.IsSameSet(piece))
+							takes.Add(targetTile);
+						break;
+					}
+				}
+			}			
         }
 
 		public PieceType GetPiece(Tile tile)
@@ -118,15 +134,17 @@ namespace Chess
 
 		public bool Move(Tile from, Tile to, bool force = false)
         {
-			PieceType piece = Pieces[from];
+			PieceType piece = GetPiece(from);
 
-			List<Tile> fullMoves = piece.GetMovement().Get(from, piece);
+			//List<Tile> fullMoves = piece.GetMovement().Get(from, piece);
+			GetPieceMoves(from, piece, out HashSet<Tile> moves, out HashSet<Tile> takes);
 
-			foreach (Tile move in fullMoves)
-				Console.WriteLine(piece.Ide() + " move: " + move.X + ", " + move.Y);
-            
+			foreach (Tile move in moves) Console.WriteLine(piece.Ide() + " moves: " + move.X + ", " + move.Y);
+			foreach (Tile take in takes) Console.WriteLine(piece.Ide() + " takes: " + take.X + ", " + take.Y);
 
-			if (!fullMoves.Contains(to) && !force) return false;
+			bool canMove = moves.Contains(to) | takes.Contains(to);
+
+			if (!canMove && !force) return false;
 
 			Pieces.Remove(from);
 			Pieces[to] = piece;
@@ -147,12 +165,26 @@ namespace Chess
 					//Tile tile = new Tile(x, y);
 					Tile tile = new Tile(x, Size.Y - y - 1);
 					if (Pieces.ContainsKey(tile))
-                    {
+					{
 						PieceType piece = Pieces[tile];
 						Console.Write(piece.Ide() + " ");
-                    }
+					}
 					else
 						Console.Write("-- ");
+						//Console.Write(tile.X + "" + tile.Y + " ");
+				}
+				Console.WriteLine();
+			}
+		}
+
+		public void DebugPrintNumbers()
+		{
+			for (int y = 0; y < Size.Y; y++)
+			{
+				for (int x = 0; x < Size.X; x++)
+				{
+					Tile tile = new Tile(x, Size.Y - y - 1);
+					Console.Write(tile.X + "," + tile.Y + " ");
 				}
 				Console.WriteLine();
 			}

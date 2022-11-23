@@ -11,13 +11,11 @@ namespace SocketConnect
 {
     public class Server : Connector
     {
-        private const bool DEBUG = false;
-
-        Socket listener;
-
-        SynchronizedCollection<Socket> clients;
-
-        bool isShuttingDown;
+        private const bool DEBUG = true;
+        
+        protected Socket listener;
+        protected SynchronizedCollection<Socket> clients;
+        protected bool isShuttingDown;
 
         public Server(IPAddress ipAddr, int port) : base(ipAddr, port)
         {
@@ -90,30 +88,34 @@ namespace SocketConnect
                 while (true)
                 {
                     // Data buffer
-                    byte[] bytes = new Byte[1024];
-                    string data = null;
 
                     // Recieve data
-                    while (true)
-                    {
-                        int numByte = clientSocket.Receive(bytes);
-                        data += Encoding.ASCII.GetString(bytes, 0, numByte);
-                        if (data.IndexOf(EOF) > -1) break;
-                    }
+                    MemoryStream stream = new MemoryStream();
+                    byte[] buffer = new byte[1024];
+                    //while (true)
+                    //{
+                    //    int numByte = clientSocket.Receive(buffer);
+                    //    if (numByte == 0) break;
+                    //    stream.Write(buffer, 0, numByte);
+                    //}
+                    int numByte = clientSocket.Receive(buffer);
+                    stream.Write(buffer, 0, numByte);
 
-                    Message message = new Message().FromString(data);
+                    if (numByte == 0) continue;
+
+                    Packet message = Packet.FromBytes<Packet>(buffer.ToArray());
 
                     if (DEBUG) Console.WriteLine("SocketConnect::Server - Text received -> {0} ", message.ToString());
 
-                    Send(clientSocket, Message.CreateRecieved(message));
+                    Send(clientSocket, new Recieved());
 
-                    if (message.Header == "Shutdown")
+                    if (message is Shutdown)
                     {
                         Shutdown();
                         break;
                     }
 
-                    if (message.Header == "Disconnect")
+                    if (message is Disconnect)
                         break;
 
                     InvokeOnMessageReceived(clientSocket, message);
@@ -135,13 +137,13 @@ namespace SocketConnect
             clients.Remove(clientSocket);
         }
 
-        static public void Send(Socket clientSocket, Message message)
+        static public void Send(Socket clientSocket, Packet message)
         {
             // Send a message to Client
             clientSocket.Send(message.ToBytes());
         }
 
-        public void Broadcast(Message message)
+        public void Broadcast(Packet message)
         {
             for (int i = 0; i < clients.Count; i++)
                 Send(clients[i], message);
@@ -174,5 +176,23 @@ namespace SocketConnect
             for (int i = 0; i < clients.Count; i++)
                 TryDisconnect(clients[i]);
         }
+    }
+
+
+
+    [Serializable]
+    public class Recieved : Packet
+    {
+
+    }
+    [Serializable]
+    public class Shutdown : Packet
+    {
+
+    }
+    [Serializable]
+    public class Disconnect : Packet
+    {
+
     }
 }

@@ -21,16 +21,17 @@ Thread serverThread = new Thread(() => {
     // Hook into events
     //server.OnConnect += (s, e) => { server.Broadcast(new IRC.ChatMessage("Server", "Cube Joined the Chatroom!")); };
     server.OnMessageReceived += (s, e) => { 
-        SocketConnect.Message message = e.Message;
+        SocketConnect.Packet message = e.Message;
         //Console.WriteLine("Chatroom::Chatroom_OnMessageReceived " + message.Header);
 
         // Do action based on message header
         if (false) ;
 
         // HANDSHAKE
-        else if (message.Header == "Handshake")
+        else if (message is IRC.Handshake)
         {
-            string username = message.Args[0];
+            IRC.Handshake handshake = (IRC.Handshake)message;
+            string username = handshake.Username;
 
             // Generate a user key
             Guid guid = Guid.NewGuid();
@@ -40,29 +41,23 @@ Thread serverThread = new Thread(() => {
 
 
             // Send the user key to the client
-            SocketConnect.Message messageShake = new SocketConnect.Message()
-                .Titled("Handshake")
-                .Add(guid.ToString());
+            IRC.Handshake messageShake = new IRC.Handshake(username, guid);
 
             SocketConnect.Server.Send(e.Client, messageShake);
 
             // Send user joined message
-            SocketConnect.Message messageJoined = new SocketConnect.Message()
-                .Titled("UserJoined")
-                .Add(username);
+            IRC.UserJoined messageJoined = new IRC.UserJoined(username);
 
             server.Broadcast(messageJoined);
 
         }
 
         // MESSAGE
-        else if (message.Header == "ChatMessage")
+        else if (message is IRC.ChatMessage)
         {
-            string author = message.Args[0];
-            string contents = message.Args[1];
-
-            serverChatroom.Messages.Add(new IRC.ChatMessage(author, contents));
-            server.Broadcast(message);
+            IRC.ChatMessage chatMessage = (IRC.ChatMessage) message;
+            serverChatroom.Messages.Add(chatMessage);
+            server.Broadcast(message); //?
         }
     };
 
@@ -72,33 +67,31 @@ Thread serverThread = new Thread(() => {
 Thread clientThread = new Thread(() => {
     user1.OnConnect += (s, e) => { };
     user1.OnMessageReceived += (s, e) => {
-        SocketConnect.Message message = e.Message;
-        string header = message.Header;
 
-        if (header == "Recieved") ;
-        else if (header == "ChatMessage")
+        SocketConnect.Packet message = e.Message;
+
+        if (false) ;
+        else if (message is IRC.ChatMessage)
         {
-            IRC.ChatMessage chatMessage = new IRC.ChatMessage();
-            chatMessage.FromArgs(e.Message.Args);
-
+            IRC.ChatMessage chatMessage = (IRC.ChatMessage)message;
             Console.WriteLine(user1.Username + " recieved: " + chatMessage.Author + ": " + chatMessage.Contents);
         }
 
-        else if (message.Header == "UserJoined")
+        else if (message is IRC.UserJoined)
         {
-            string username = message.Args[0];
-            Console.WriteLine(user1.Username + " recieved: " + username + " Joined!");
+            IRC.UserJoined userJoined = (IRC.UserJoined)message;
+            Console.WriteLine(user1.Username + " recieved: " + userJoined.Username + " Joined!");
         }
 
-        else if (message.Header == "Handshake")
+        else if (message is IRC.Handshake)
         {
-            string userId = message.Args[0];
-            Console.WriteLine(user1.Username + "'s server member id is: " + userId);
+            IRC.Handshake handshake = (IRC.Handshake)message;
+            Console.WriteLine(user1.Username + "'s server member id is: " + handshake.Guid);
         }
 
         else
         {
-            Console.WriteLine(user1.Username + " recieved message: " + header);
+            Console.WriteLine(user1.Username + " recieved message: " + message.Id);
         }
     };
 
@@ -112,7 +105,7 @@ Thread clientThread = new Thread(() => {
     user1.Send(new IRC.ChatMessage(user1.Username, "TEST MESSAGE 3"));
     user1.Send(new IRC.ChatMessage(user1.Username, "TEST MESSAGE 4"));
     user1.Send(new IRC.ChatMessage(user1.Username, "TEST MESSAGE 5"));
-    user1.Send(Message.CreateDisconnect());
+    user1.Send(new SocketConnect.Disconnect());
 });
 
 Thread client2Thread = new Thread(() => {

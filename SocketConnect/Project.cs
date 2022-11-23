@@ -18,9 +18,9 @@ Thread clientThread = new Thread(() => {
     client.Connect();
     client.ReceiveThread().Start();
 
-    client.Send(new Message().Titled("Message1#A"));
-    client.Send(new Message().Titled("Message1#B").Add("AAAAA"));
-    client.Send(Message.CreateDisconnect());
+    client.Send(new Packet());
+    //client.Send(new Message().Titled("Message1#B").Add("AAAAA"));
+    client.Send(new Disconnect());
 });
 
 SocketConnect.Client client2 = new SocketConnect.Client(ipAddr, port);
@@ -28,11 +28,11 @@ Thread client2Thread = new Thread(() => {
     client2.Connect();
     client2.ReceiveThread().Start();
 
-    client2.Send(new Message().Titled("Message2#A").Add("ByCubed7").Add("AAAAAAAAAAAAAAAAAA"));
-    client2.Send(new Message().Titled("Message2#B"));
-    client2.Send(new Message().Titled("Message2#C"));
-    //client.Send(Message.CreateShutdown());
-    client2.Send(Message.CreateDisconnect());
+    //client2.Send(new Message().Titled("Message2#A").Add("ByCubed7").Add("AAAAAAAAAAAAAAAAAA"));
+    //client2.Send(new Message().Titled("Message2#B"));
+    //client2.Send(new Message().Titled("Message2#C"));
+    //client.Send(new Shutdown());
+    client2.Send(new Disconnect());
 
 });
 

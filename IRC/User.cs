@@ -7,8 +7,6 @@ using System.Threading.Tasks;
 
 namespace IRC
 {
-    
-
     public class User : SocketConnect.Client
     {
         public string Username { get; set; }
@@ -22,9 +20,7 @@ namespace IRC
         public void Handshake()
         {
             // TODO: Add id / encryption keys / ect ect
-            Send(new SocketConnect.Message()
-                .Titled("Handshake")
-                .Add(Username)
+            Send(new IRC.Handshake(Username, null)
             );
         }
     }

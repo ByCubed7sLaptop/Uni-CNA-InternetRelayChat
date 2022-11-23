@@ -15,7 +15,7 @@ namespace SocketConnect
 
         Socket sender;
 
-        //List<Message> awaitingResponses;
+        //List<Packet> awaitingResponses;
 
         public Client(IPAddress ipAddr, int port) : base(ipAddr, port)
         {
@@ -25,7 +25,7 @@ namespace SocketConnect
                 ProtocolType.Tcp
             );
 
-            //awaitingResponses = new List<Message>();
+            //awaitingResponses = new List<Packet>();
         }
 
         public void Connect()
@@ -49,7 +49,7 @@ namespace SocketConnect
 
 
         // Send 
-        public void Send(Message message)
+        public void Send(Packet message)
         {
             if (!sender.Connected) return;
 
@@ -73,23 +73,16 @@ namespace SocketConnect
             Thread.Sleep(100);
 
             // Receive the return message
-            //Message? receivedMessage = Receive();
+            //Packet? receivedPacket = Receive();
 
-            //if (DEBUG) Console.WriteLine("SocketConnect::Client - Message from Server -> {0}",
-            //      receivedMessage?.ToString()
+            //if (DEBUG) Console.WriteLine("SocketConnect::Client - Packet from Server -> {0}",
+            //      receivedPacket?.ToString()
             //);
 
-            //return receivedMessage;
-        }
-        public void Send(IMessage iMessage)
-        {
-            Message message = new Message();
-            message.Header = iMessage.Header;
-            message.Args = iMessage.Args();
-            Send(message);
+            //return receivedPacket;
         }
 
-        public Message? Receive()
+        public Packet? Receive()
         {
             if (!sender.Connected) return null;
 
@@ -113,13 +106,15 @@ namespace SocketConnect
                 return null;
             }
 
+            if (amount == 0) return null;
+
             // Create the message
-            Message? message = new Message().FromBytes(bytesReceived, amount);
+            Packet message = Packet.FromBytes<Packet>(bytesReceived);
 
             if (DEBUG) Console.WriteLine("SocketConnect::Client - Recieved : {0}", message?.ToString());
 
-            if (message is not null) 
-                InvokeOnMessageReceived(sender, message);
+            //if (message is not null) 
+                //InvokeOnPacketReceived(sender, message);
 
             return message;
         }
@@ -130,7 +125,7 @@ namespace SocketConnect
             {
                 while (true)
                 {
-                    Message? message = Receive();
+                    Packet? message = Receive();
                     if (message is null) break;
 
                 }

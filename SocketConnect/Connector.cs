@@ -11,15 +11,12 @@ namespace SocketConnect
 {
     public class Connector
     {
-        public const char EOF = ';';
-        public const char Split = '|';
-
         //private IPHostEntry ipHost;
         protected IPAddress ipAddress;
         protected IPEndPoint localEndPoint;
 
         protected const int cache = 5;
-        protected Cubed.Collections.Hashlist<Message> sent;
+        protected Cubed.Collections.Hashlist<Packet> sent;
 
 
         public Connector(IPAddress ipAddr, int port = 11111)
@@ -28,7 +25,7 @@ namespace SocketConnect
             ipAddress = ipAddr;
             localEndPoint = new IPEndPoint(ipAddress, port);
 
-            sent = new Cubed.Collections.Hashlist<Message>();
+            sent = new Cubed.Collections.Hashlist<Packet>();
         }
 
         // When a client connects
@@ -60,7 +57,7 @@ namespace SocketConnect
 
         // When *I* received a message
         public event EventHandler<MessageEventArgs>? OnMessageReceived;
-        public void InvokeOnMessageReceived(Socket client, Message message)
+        public void InvokeOnMessageReceived(Socket client, Packet message)
         {
             Debug.Assert(client != null, "Client can not be null!");
             Debug.Assert(message != null, "Message can not be null!");
@@ -71,10 +68,10 @@ namespace SocketConnect
 
         public class MessageEventArgs : EventArgs
         {
-            public Message Message { get; set; }
+            public Packet Message { get; set; }
             public Socket Client { get; set; }
 
-            public MessageEventArgs(Socket client, Message message)
+            public MessageEventArgs(Socket client, Packet message)
             {
                 Client = client;
                 Message = message;

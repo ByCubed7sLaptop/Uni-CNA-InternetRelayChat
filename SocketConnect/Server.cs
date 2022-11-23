@@ -11,7 +11,7 @@ namespace SocketConnect
 {
     public class Server : Connector
     {
-        private const bool DEBUG = true;
+        private const bool DEBUG = false;
         
         protected Socket listener;
         protected SynchronizedCollection<Socket> clients;
@@ -103,22 +103,22 @@ namespace SocketConnect
 
                     if (numByte == 0) continue;
 
-                    Packet message = Packet.FromBytes<Packet>(buffer.ToArray());
+                    Packet packet = Packet.FromBytes<Packet>(buffer.ToArray());
 
-                    if (DEBUG) Console.WriteLine("SocketConnect::Server - Text received -> {0} ", message.ToString());
+                    if (DEBUG) Console.WriteLine("SocketConnect::Server - Text received -> {0} ", packet.ToString());
 
                     Send(clientSocket, new Recieved());
 
-                    if (message is Shutdown)
+                    if (packet is Shutdown)
                     {
                         Shutdown();
                         break;
                     }
 
-                    if (message is Disconnect)
+                    if (packet is Disconnect)
                         break;
 
-                    InvokeOnMessageReceived(clientSocket, message);
+                    InvokeOnPacketReceived(clientSocket, packet);
 
                     if (isShuttingDown) break;
                 }

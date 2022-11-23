@@ -20,15 +20,14 @@ IRC.User user2 = new IRC.User(ipAddr, port, "Thomas");
 Thread serverThread = new Thread(() => {
     // Hook into events
     //server.OnConnect += (s, e) => { server.Broadcast(new IRC.ChatMessage("Server", "Cube Joined the Chatroom!")); };
-    server.OnMessageReceived += (s, e) => { 
-        SocketConnect.Packet message = e.Message;
-        //Console.WriteLine("Chatroom::Chatroom_OnMessageReceived " + message.Header);
+    server.OnPacketReceived += (s, e) => { 
+        SocketConnect.Packet message = e.Packet;
+        //Console.WriteLine("Chatroom::Chatroom_OnMessageReceived " + message);
 
         // Do action based on message header
-        if (false) ;
 
         // HANDSHAKE
-        else if (message is IRC.Handshake)
+        if (message is IRC.Handshake)
         {
             IRC.Handshake handshake = (IRC.Handshake)message;
             string username = handshake.Username;
@@ -49,7 +48,6 @@ Thread serverThread = new Thread(() => {
             IRC.UserJoined messageJoined = new IRC.UserJoined(username);
 
             server.Broadcast(messageJoined);
-
         }
 
         // MESSAGE
@@ -66,9 +64,9 @@ Thread serverThread = new Thread(() => {
 
 Thread clientThread = new Thread(() => {
     user1.OnConnect += (s, e) => { };
-    user1.OnMessageReceived += (s, e) => {
+    user1.OnPacketReceived += (s, e) => {
 
-        SocketConnect.Packet message = e.Message;
+        SocketConnect.Packet message = e.Packet;
 
         if (false) ;
         else if (message is IRC.ChatMessage)

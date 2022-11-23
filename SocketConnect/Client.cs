@@ -113,8 +113,7 @@ namespace SocketConnect
 
             if (DEBUG) Console.WriteLine("SocketConnect::Client - Recieved : {0}", message?.ToString());
 
-            //if (message is not null) 
-                //InvokeOnPacketReceived(sender, message);
+            InvokeOnPacketReceived(sender, message);
 
             return message;
         }
@@ -127,7 +126,6 @@ namespace SocketConnect
                 {
                     Packet? message = Receive();
                     if (message is null) break;
-
                 }
             });
         }

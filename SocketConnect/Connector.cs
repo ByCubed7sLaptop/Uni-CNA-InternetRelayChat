@@ -55,26 +55,26 @@ namespace SocketConnect
             eventHandler(this, new EventArgs());
         }
 
-        // When *I* received a message
-        public event EventHandler<MessageEventArgs>? OnMessageReceived;
-        public void InvokeOnMessageReceived(Socket client, Packet message)
+        // When *I* received a package
+        public event EventHandler<PacketEventArgs>? OnPacketReceived;
+        public void InvokeOnPacketReceived(Socket client, Packet package)
         {
-            Debug.Assert(client != null, "Client can not be null!");
-            Debug.Assert(message != null, "Message can not be null!");
-            EventHandler<MessageEventArgs>? eventHandler = OnMessageReceived;
+            //Debug.Assert(client != null, "Client can not be null!");
+            //Debug.Assert(package != null, "Package can not be null!");
+            EventHandler<PacketEventArgs>? eventHandler = OnPacketReceived;
             if (eventHandler is null) return;
-            eventHandler(this, new MessageEventArgs(client, message));
+            eventHandler(this, new PacketEventArgs(client, package));
         }
 
-        public class MessageEventArgs : EventArgs
+        public class PacketEventArgs : EventArgs
         {
-            public Packet Message { get; set; }
+            public Packet Packet { get; set; }
             public Socket Client { get; set; }
 
-            public MessageEventArgs(Socket client, Packet message)
+            public PacketEventArgs(Socket client, Packet packet)
             {
                 Client = client;
-                Message = message;
+                Packet = packet;
             }
         }
         public class ClientEventArgs : EventArgs

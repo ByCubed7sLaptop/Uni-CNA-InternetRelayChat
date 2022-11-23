@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Threading;
 using System.Windows;
+using System.Windows.Documents;
 using System.Windows.Input;
 
 namespace GUI
@@ -10,42 +13,68 @@ namespace GUI
     public partial class ChatRoom : Window
     {
 
+        public List<string> strings = new List<string>();
+
         public ChatRoom()
         {
             InitializeComponent();
 
-            SendButton.MouseDown += SendButton_MouseDown;
-            ExitButton.MouseDown += ExitButton_MouseDown;
+            //SendButton.MouseDown += SendButton_MouseDown;
+            SendButton.Click += SendButton_Click;
+            ExitButton.Click += ExitButton_Click;
         }
+
 
         // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
         // Actions
 
         public void AddMessage(string str)
         {
-            MessageLabel.Content += '\n' + str;
+            //strings.Add(str);
+
+            Dispatcher.Invoke(() => {
+                MessageContainer.Items.Add(str);
+            });
+
 
             // Scroll to bottom if near
 
             // Play sounds?
 
         }
-        
+
+
+        // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 
         // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
         // Interactions
 
-        private void SendButton_MouseDown(object sender, MouseButtonEventArgs e)
+        private void SendButton_Click(object sender, RoutedEventArgs e)
         {
-            //MessageBox.Text;
-            InvokeSendMessage(new SendMessageEventArgs());
+            // Get text from richtext box
+            TextRange textRange = new TextRange(
+                MessageInput.Document.ContentStart, // TextPointer to the start of content in the RichTextBox.
+                MessageInput.Document.ContentEnd // TextPointer to the end of content in the RichTextBox.
+            );
+
+            // The Text property on a TextRange object returns a string
+            // representing the plain text content of the TextRange.
+            string message = textRange.Text.Trim();
+
+            Console.WriteLine("MESSAGE: " + message);
+
+            // Clear the contents
+            MessageInput.Document = new FlowDocument();
+
+            InvokeSendMessage(message);
         }
 
-        private void ExitButton_MouseDown(object sender, MouseButtonEventArgs e)
+        private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
             InvokeLeave(new LeaveEventArgs());
-            
+
+            // Change page to main
         }
 
 
@@ -55,20 +84,26 @@ namespace GUI
 
 
         // When the client attempts to send a message
-        public event EventHandler<SendMessageEventArgs> SendMessage;
-        protected virtual void InvokeSendMessage(SendMessageEventArgs e)
+        public event EventHandler<SendMessageEventArgs> OnSendMessage;
+        protected virtual void InvokeSendMessage(string message)
         {
-            var handler = SendMessage;
-            handler?.Invoke(this, e);
+            var handler = OnSendMessage;
+            handler?.Invoke(this, new SendMessageEventArgs(message));
         }
-        public class SendMessageEventArgs : EventArgs { }
+        public class SendMessageEventArgs : EventArgs {
+            public string Message { get; set; }
+            public SendMessageEventArgs(string message)
+            {
+                Message = message;
+            }
+        }
 
 
         // When the client attempts to send a message
-        public event EventHandler<LeaveEventArgs> Leave;
+        public event EventHandler<LeaveEventArgs> OnLeave;
         protected virtual void InvokeLeave(LeaveEventArgs e)
         {
-            var handler = Leave;
+            var handler = OnLeave;
             handler?.Invoke(this, e);
         }
         public class LeaveEventArgs : EventArgs { }

@@ -27,5 +27,10 @@ namespace IRC
         {
             Send(new IRC.ChatMessage(Username, message));
         }
+
+        public void Disconnect()
+        {
+            Send(new SocketConnect.Disconnect());
+        }
     }
 }

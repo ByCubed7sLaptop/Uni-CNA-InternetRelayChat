@@ -15,6 +15,17 @@ namespace IRC
         {
             Username = username;
         }
+    }
+    
+    [Serializable]
+    public class UserLeft : SocketConnect.Packet
+    {
+        public string Username { get; }
+
+        public UserLeft(string username)
+        {
+            Username = username;
+        }
 
     }
 }

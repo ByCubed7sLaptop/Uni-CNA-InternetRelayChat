@@ -24,17 +24,23 @@
         </WrapPanel>
         <Rectangle Margin="5,5,2,5" Stroke="Black" Grid.RowSpan="2"/>
 
-        <Label x:Name="MessageLabel" Content="Label" Margin="2,5,2,2" Grid.Column="1" Grid.ColumnSpan="2" Background="{DynamicResource Light}"/>
-        <Rectangle Margin="2,5,2,2" Stroke="Black" Grid.Column="1" Grid.ColumnSpan="2"/>
-        
-        <Rectangle Margin="2,5,5,2" Stroke="Black" Grid.Column="3"/>
-        <Rectangle Margin="2,2,2,5" Stroke="Black" Grid.Column="1" Grid.Row="1"/>
-        <Rectangle Margin="2,2,5,5" Stroke="Black" Grid.Column="3" Grid.Row="1"/>
-        
-        
-        <Button x:Name="SendButton" Grid.Column="2" Content="Button" HorizontalAlignment="Stretch" Margin="2,2,2,5" Grid.Row="1" VerticalAlignment="Stretch" Background="{DynamicResource Highlight}"/>
-        <Rectangle Margin="2,2,2,5" Stroke="Black" Grid.Column="2" Grid.Row="1"/>
 
+
+
+        <Rectangle Margin="2,5,2,2" Stroke="Black" Grid.Column="1" Grid.ColumnSpan="2"/>
+
+        <Rectangle Margin="2,5,5,2" Stroke="Black" Grid.Column="3"/>
+
+        <Rectangle Margin="2,2,2,5" Stroke="Black" Grid.Column="1" Grid.Row="1"/>
+        <RichTextBox x:Name="MessageInput" Margin="2,2,2,5" Grid.Column="1" Grid.Row="1"/>
+
+        <Rectangle Margin="2,2,5,5" Stroke="Black" Grid.Column="3" Grid.Row="1"/>
+
+
+        <Rectangle Margin="2,2,2,5" Stroke="Black" Grid.Column="2" Grid.Row="1"/>
+        <Button x:Name="SendButton" Grid.Column="2" Content="Send" HorizontalAlignment="Stretch" Margin="2,2,2,5" Grid.Row="1" VerticalAlignment="Stretch" Background="{DynamicResource Highlight}"/>
+
+        <ListBox x:Name="MessageContainer" Margin="2,2,2,5" Grid.Column="1" Grid.ColumnSpan="2" d:ItemsSource="{d:SampleData ItemCount=50}"/>
 
 
 

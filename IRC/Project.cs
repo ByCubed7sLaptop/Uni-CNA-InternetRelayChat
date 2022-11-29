@@ -61,13 +61,13 @@ Thread clientThread = new Thread(() => {
         SocketConnect.Packet message = e.Packet;
 
         if (message is IRC.ChatMessage chatMessage)
-            Console.WriteLine(user1.Username + " recieved: " + chatMessage.Author + ": " + chatMessage.Contents);
+            Console.WriteLine(user1.Name + " recieved: " + chatMessage.Author + ": " + chatMessage.Contents);
 
         else if (message is IRC.UserJoined userJoined)
-            Console.WriteLine(user1.Username + " recieved: " + userJoined.Username + " Joined!");
+            Console.WriteLine(user1.Name + " recieved: " + userJoined.Username + " Joined!");
 
         else if (message is IRC.Handshake handshake)
-            Console.WriteLine(user1.Username + "'s server member id is: " + handshake.Guid);
+            Console.WriteLine(user1.Name + "'s server member id is: " + handshake.Guid);
 
         else
             ;// Console.WriteLine(user1.Username + " recieved message: " + message.Id);
@@ -80,11 +80,11 @@ Thread clientThread = new Thread(() => {
 
     user1.SendHandshake();
 
-    user1.Send(new IRC.ChatMessage(user1.Username, "TEST MESSAGE"));
-    user1.Send(new IRC.ChatMessage(user1.Username, "TEST MESSAGE 2222"));
-    user1.Send(new IRC.ChatMessage(user1.Username, "TEST MESSAGE 3"));
-    user1.Send(new IRC.ChatMessage(user1.Username, "TEST MESSAGE 4"));
-    user1.Send(new IRC.ChatMessage(user1.Username, "TEST MESSAGE 5"));
+    user1.Send(new IRC.ChatMessage(user1.Name, "TEST MESSAGE"));
+    user1.Send(new IRC.ChatMessage(user1.Name, "TEST MESSAGE 2222"));
+    user1.Send(new IRC.ChatMessage(user1.Name, "TEST MESSAGE 3"));
+    user1.Send(new IRC.ChatMessage(user1.Name, "TEST MESSAGE 4"));
+    user1.Send(new IRC.ChatMessage(user1.Name, "TEST MESSAGE 5"));
     user1.Send(new SocketConnect.Disconnect());
 });
 
@@ -94,7 +94,7 @@ Thread client2Thread = new Thread(() => {
 
     user2.SendHandshake();
 
-    user2.Send(new IRC.ChatMessage(user2.Username, "I am Thomas"));
+    user2.Send(new IRC.ChatMessage(user2.Name, "I am Thomas"));
    // user2.Send(Message.CreateDisconnect());
 });
 

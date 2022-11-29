@@ -9,35 +9,45 @@ namespace IRC
 {
     public class User : SocketConnect.Client
     {
-        public string Username { get; set; }
+        // TODO: Add id / encryption keys / ect ect
+
+        /// <summary>
+        /// The name of the user
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// The server id of the user.
+        /// </summary>
         public Guid Id { get; set; }
 
-        public User(IPAddress ipAddr, int port, string username) : base(ipAddr, port)
+        public User(IPAddress ipAddr, int port, string name) : base(ipAddr, port)
         {
-            Username = username;
+            Name = name;
+            Id = Guid.Empty;
         }
 
         public void HandShake(IRC.Handshake handshake)
         {
             Guid? guid = handshake.Guid;
 
-            if (!guid.HasValue)
-                throw new Exception("Handshake failed to send a valid GUID!");
+            if (guid == Guid.Empty)
+                throw new Exception("Handshake failed to send a filled GUID!");
             
             Id = guid.Value;
         }
 
+        // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
         // Send packet functions
 
         public void SendHandshake()
         {
-            // TODO: Add id / encryption keys / ect ect
-            Send(new IRC.Handshake(Username, null));
+            Send(new Handshake(Name, Guid.Empty));
         }
 
         public void SendMessage(string message)
         {
-            Send(new IRC.ChatMessage(Username, message));
+            Send(new IRC.ChatMessage(Name, message));
         }
 
         public void SendDisconnect()

@@ -52,28 +52,4 @@ namespace IRC
         public void MessageFromPacket(MessageCollection messageCollection) 
             => Messages = messageCollection.Messages;
     }
-
-
-    [Serializable]
-    public class UserCollection : SocketConnect.Packet
-    {
-        public SortedDictionary<Guid, string> Users { get; }
-
-        public UserCollection(SortedDictionary<Guid, string> users)
-        {
-            Users = users;
-        }
-    }
-
-
-    [Serializable]
-    public class MessageCollection : SocketConnect.Packet
-    {
-        public List<ChatMessage> Messages { get; }
-
-        public MessageCollection(List<ChatMessage> messages)
-        {
-            Messages = messages;
-        }
-    }
 }

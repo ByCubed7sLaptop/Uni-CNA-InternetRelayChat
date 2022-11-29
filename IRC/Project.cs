@@ -78,7 +78,7 @@ Thread clientThread = new Thread(() => {
     user1.Connect();
     user1.ReceiveThread().Start();
 
-    user1.Handshake();
+    user1.SendHandshake();
 
     user1.Send(new IRC.ChatMessage(user1.Username, "TEST MESSAGE"));
     user1.Send(new IRC.ChatMessage(user1.Username, "TEST MESSAGE 2222"));
@@ -92,7 +92,7 @@ Thread client2Thread = new Thread(() => {
     user2.Connect();
     user2.ReceiveThread().Start();
 
-    user2.Handshake();
+    user2.SendHandshake();
 
     user2.Send(new IRC.ChatMessage(user2.Username, "I am Thomas"));
    // user2.Send(Message.CreateDisconnect());

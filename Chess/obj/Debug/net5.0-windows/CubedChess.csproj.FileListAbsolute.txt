@@ -1,5 +1,0 @@
-D:\Projects\CNAInternetRelayChat\Chess\obj\Debug\net5.0-windows\CubedChess.csproj.AssemblyReference.cache
-D:\Projects\CNAInternetRelayChat\Chess\obj\Debug\net5.0-windows\CubedChess.GeneratedMSBuildEditorConfig.editorconfig
-D:\Projects\CNAInternetRelayChat\Chess\obj\Debug\net5.0-windows\CubedChess.AssemblyInfoInputs.cache
-D:\Projects\CNAInternetRelayChat\Chess\obj\Debug\net5.0-windows\CubedChess.AssemblyInfo.cs
-D:\Projects\CNAInternetRelayChat\Chess\obj\Debug\net5.0-windows\CubedChess.csproj.CoreCompileInputs.cache

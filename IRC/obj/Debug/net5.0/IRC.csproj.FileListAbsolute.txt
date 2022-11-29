@@ -1,5 +1,0 @@
-D:\Projects\CNAInternetRelayChat\IRC\obj\Debug\net5.0\IRC.csproj.AssemblyReference.cache
-D:\Projects\CNAInternetRelayChat\IRC\obj\Debug\net5.0\IRC.GeneratedMSBuildEditorConfig.editorconfig
-D:\Projects\CNAInternetRelayChat\IRC\obj\Debug\net5.0\IRC.AssemblyInfoInputs.cache
-D:\Projects\CNAInternetRelayChat\IRC\obj\Debug\net5.0\IRC.AssemblyInfo.cs
-D:\Projects\CNAInternetRelayChat\IRC\obj\Debug\net5.0\IRC.csproj.CoreCompileInputs.cache

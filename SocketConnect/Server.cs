@@ -180,19 +180,7 @@ namespace SocketConnect
 
 
 
-    [Serializable]
-    public class Recieved : Packet
-    {
-
-    }
-    [Serializable]
-    public class Shutdown : Packet
-    {
-
-    }
-    [Serializable]
-    public class Disconnect : Packet
-    {
-
-    }
+    [Serializable] public class Recieved : Packet {}
+    [Serializable] public class Shutdown : Packet {}
+    [Serializable] public class Disconnect : Packet {}
 }

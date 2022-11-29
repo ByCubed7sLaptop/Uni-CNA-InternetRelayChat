@@ -10,14 +10,26 @@ namespace IRC
     public class User : SocketConnect.Client
     {
         public string Username { get; set; }
-
+        public Guid Id { get; set; }
 
         public User(IPAddress ipAddr, int port, string username) : base(ipAddr, port)
         {
             Username = username;
         }
 
-        public void Handshake()
+        public void HandShake(IRC.Handshake handshake)
+        {
+            Guid? guid = handshake.Guid;
+
+            if (!guid.HasValue)
+                throw new Exception("Handshake failed to send a valid GUID!");
+            
+            Id = guid.Value;
+        }
+
+        // Send packet functions
+
+        public void SendHandshake()
         {
             // TODO: Add id / encryption keys / ect ect
             Send(new IRC.Handshake(Username, null));
@@ -28,7 +40,7 @@ namespace IRC
             Send(new IRC.ChatMessage(Username, message));
         }
 
-        public void Disconnect()
+        public void SendDisconnect()
         {
             Send(new SocketConnect.Disconnect());
         }

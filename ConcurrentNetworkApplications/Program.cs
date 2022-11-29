@@ -39,7 +39,7 @@ namespace ConcurrentNetworkApplications
             serverApp.CreateRunThread().Start();
 
             ClientApplication clientApp = new ClientApplication(ipHost, ipAddr, port);
-            clientApp.user.Username = "Brian";
+            //clientApp.user.Username = "Brian";
             clientApp.Run();
             clientApp.ShowDialog();
 

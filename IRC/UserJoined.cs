@@ -16,7 +16,7 @@ namespace IRC
             Username = username;
         }
     }
-    
+
     [Serializable]
     public class UserLeft : SocketConnect.Packet
     {
@@ -26,6 +26,5 @@ namespace IRC
         {
             Username = username;
         }
-
     }
 }

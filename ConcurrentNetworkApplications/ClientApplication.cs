@@ -34,7 +34,7 @@ namespace ConcurrentNetworkApplications
             user.Connect();
             user.ReceiveThread().Start();
 
-            user.Handshake();
+            user.SendHandshake();
 
         }
 
@@ -42,36 +42,38 @@ namespace ConcurrentNetworkApplications
         {
             // Link window events to user / chatroom creation
             window.OnSendMessage += (s, e) => user.SendMessage(e.Message);
-            window.OnLeave += (s, e) => user.Disconnect();
+            window.OnLeave += (s, e) => user.SendDisconnect();
         }
 
         private void HookUserEvents()
-        {// Link IRC events
-            user.OnConnect += (s, e) => { };
+        {
+            // Link IRC events
+            user.OnConnect += (s, e) => {
+                window.AddMessage("Connected successfully");
+            };
+
             user.OnPacketReceived += (s, e) => {
 
                 SocketConnect.Packet message = e.Packet;
 
+                // ChatMessage
                 if (message is IRC.ChatMessage chatMessage)
-                    //Console.WriteLine(user.Username + " recieved: " + chatMessage.Author + ": " + chatMessage.Contents);
                     window.AddMessage(chatMessage.Author + ": " + chatMessage.Contents);
 
+                // UserJoined
                 else if (message is IRC.UserJoined userJoined)
                     window.AddMessage(userJoined.Username + " Joined!");
-                //Console.WriteLine(user.Username + " recieved: " + userJoined.Username + " Joined!");
 
+                // UserLeft
                 else if (message is IRC.UserLeft userLeft)
                     window.AddMessage(userLeft.Username + " Left!");
-                //Console.WriteLine(user.Username + " recieved: " + userJoined.Username + " Joined!");
 
+                // Handshake
                 else if (message is IRC.Handshake handshake)
+                {
                     window.AddMessage("Your server member id is: " + handshake.Guid);
-                //Console.WriteLine(user.Username + "'s server member id is: " + handshake.Guid);
-
-                else
-                    ;// Console.WriteLine(user1.Username + " recieved message: " + message.Id);
-
-
+                    user.HandShake(handshake);
+                }
             };
         }
 

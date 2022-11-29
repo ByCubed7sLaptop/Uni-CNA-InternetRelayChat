@@ -18,5 +18,22 @@ namespace IRC
             Users = new SortedDictionary<Guid, string>();
             Messages = new List<ChatMessage>();
         }
+
+        public UserCollection GetUserCollection()
+        {
+            return new UserCollection(Users);
+        }
+    }
+
+
+    [Serializable]
+    public class UserCollection : SocketConnect.Packet
+    {
+        public SortedDictionary<Guid, string> Users { get; }
+
+        public UserCollection(SortedDictionary<Guid, string> users)
+        {
+            Users = users;
+        }
     }
 }

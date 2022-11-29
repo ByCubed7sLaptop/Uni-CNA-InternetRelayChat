@@ -13,7 +13,7 @@ namespace ConcurrentNetworkApplications
         public GUI.ChatRoom window;
         public IRC.Chatroom chatroom;
 
-        public ClientApplication(IPHostEntry ipHost, IPAddress ipAddr, int port)
+        public ClientApplication(IPAddress ipAddr, int port)
         {
             window = new();
             chatroom = new IRC.Chatroom();
@@ -21,21 +21,16 @@ namespace ConcurrentNetworkApplications
 
             HookWindowEvents();
             HookUserEvents();
-
-            // Start User
-            //new Thread(() => {
-            //    Run()
-            //}).Start();
-            //Run();
         }
 
+        /// <summary>
+        /// Run the operation threads.
+        /// </summary>
         public void Run()
         {
             user.Connect();
             user.ReceiveThread().Start();
-
             user.SendHandshake();
-
         }
 
         private void HookWindowEvents()
@@ -67,6 +62,10 @@ namespace ConcurrentNetworkApplications
                 // UserLeft
                 else if (message is IRC.UserLeft userLeft)
                     window.AddMessage(userLeft.Username + " Left!");
+
+                // UserCollection update
+                else if (message is IRC.UserCollection userCollection)
+                    chatroom.SetUserCollection(userCollection);
 
                 // Handshake
                 else if (message is IRC.Handshake handshake)

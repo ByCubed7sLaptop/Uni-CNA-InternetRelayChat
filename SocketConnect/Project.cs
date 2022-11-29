@@ -18,7 +18,7 @@ Thread clientThread = new Thread(() => {
     client.Connect();
     client.ReceiveThread().Start();
 
-    client.Send(new Packet());
+    //client.Send(new Packet());
     //client.Send(new Message().Titled("Message1#B").Add("AAAAA"));
     client.Send(new Disconnect());
 });

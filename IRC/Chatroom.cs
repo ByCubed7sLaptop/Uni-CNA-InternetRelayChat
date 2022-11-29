@@ -7,10 +7,19 @@ using System.Threading.Tasks;
 
 namespace IRC
 {
-    // Represents a chatroom
+    /// <summary>
+    /// Represents a chatroom, contains a collection of users and messages.
+    /// </summary>
     public class Chatroom
     {
+        /// <summary>
+        /// The current connected users.
+        /// </summary>
         public SortedDictionary<Guid, string> Users { get; set; }
+        
+        /// <summary>
+        /// The messages in this chatroom.
+        /// </summary>
         public List<ChatMessage> Messages { get; set; }
 
         public Chatroom()
@@ -19,10 +28,29 @@ namespace IRC
             Messages = new List<ChatMessage>();
         }
 
-        public UserCollection GetUserCollection()
-        {
-            return new UserCollection(Users);
-        }
+        /// <summary>
+        /// Get the user collection as an update packet.
+        /// </summary>
+        public UserCollection UsersPacket() 
+            => new UserCollection(Users);
+
+        /// <summary>
+        /// Get the message collection as an update packet.
+        /// </summary>
+        public UserCollection MessagePacket()
+            => new UserCollection(Users);
+
+        /// <summary>
+        /// Set the user collection using a packet.
+        /// </summary>
+        public void SetUserCollection(UserCollection userCollection) 
+            => Users = userCollection.Users;
+
+        /// <summary>
+        /// Set the message collection using a packet.
+        /// </summary>
+        public void MessageFromPacket(MessageCollection messageCollection) 
+            => Messages = messageCollection.Messages;
     }
 
 
@@ -34,6 +62,18 @@ namespace IRC
         public UserCollection(SortedDictionary<Guid, string> users)
         {
             Users = users;
+        }
+    }
+
+
+    [Serializable]
+    public class MessageCollection : SocketConnect.Packet
+    {
+        public List<ChatMessage> Messages { get; }
+
+        public MessageCollection(List<ChatMessage> messages)
+        {
+            Messages = messages;
         }
     }
 }

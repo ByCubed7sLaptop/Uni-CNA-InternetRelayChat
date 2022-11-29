@@ -13,7 +13,7 @@ namespace ConcurrentNetworkApplications
         public SocketConnect.Server server;
 
 
-        public ServerApplication(IPHostEntry ipHost, IPAddress ipAddr, int port)
+        public ServerApplication(IPAddress ipAddr, int port)
         {
             chatroom = new IRC.Chatroom();
             server = new SocketConnect.Server(ipAddr, port);

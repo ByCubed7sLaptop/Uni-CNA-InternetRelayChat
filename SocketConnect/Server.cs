@@ -9,12 +9,26 @@ using System.Threading.Tasks;
 
 namespace SocketConnect
 {
+    /// <summary>
+    /// Represents a connectable server.
+    /// </summary>
     public class Server : Connector
     {
         private const bool DEBUG = false;
         
+        /// <summary>
+        /// The listening socket.
+        /// </summary>
         protected Socket listener;
+
+        /// <summary>
+        /// The sockets connected to this server.
+        /// </summary>
         protected SynchronizedCollection<Socket> clients;
+
+        /// <summary>
+        /// Whether this server is attempting to shutdown.
+        /// </summary>
         protected bool isShuttingDown;
 
         public Server(IPAddress ipAddr, int port) : base(ipAddr, port)
@@ -30,6 +44,9 @@ namespace SocketConnect
             isShuttingDown = false;
         }
 
+        /// <summary>
+        /// Start listening for clients to connect.
+        /// </summary>
         public void Start()
         {
             isShuttingDown = false;
@@ -77,6 +94,10 @@ namespace SocketConnect
         {
             return new Thread(() => ConnectClient(clientSocket));
         }
+
+        /// <summary>
+        /// Connect client protocal.
+        /// </summary>
         protected void ConnectClient(Socket clientSocket)
         {
             // Add client to list
@@ -87,39 +108,44 @@ namespace SocketConnect
             {
                 while (true)
                 {
-                    // Data buffer
-
-                    // Recieve data
+                    // The recieved memory stream
                     MemoryStream stream = new MemoryStream();
-                    byte[] buffer = new byte[1024];
-                    //while (true)
-                    //{
-                    //    int numByte = clientSocket.Receive(buffer);
-                    //    if (numByte == 0) break;
-                    //    stream.Write(buffer, 0, numByte);
-                    //}
-                    int numByte = clientSocket.Receive(buffer);
-                    stream.Write(buffer, 0, numByte);
 
+                    // The received memory buffer
+                    byte[] buffer = new byte[1024];
+
+                    // Recieve!
+                    int numByte = clientSocket.Receive(buffer);
+
+                    // If recieved nothing, retry
                     if (numByte == 0) continue;
 
+                    // Write to memory buffer
+                    stream.Write(buffer, 0, numByte);
+
+                    // Deserialize packet
                     Packet packet = Packet.FromBytes<Packet>(buffer.ToArray());
 
                     if (DEBUG) Console.WriteLine("SocketConnect::Server - Text received -> {0} ", packet.ToString());
 
-                    Send(clientSocket, new Recieved());
+                    // Send the recieved message
+                    //Send(clientSocket, new Recieved());
 
+                    // If the client has told us to shutdown
                     if (packet is Shutdown)
                     {
                         Shutdown();
                         break;
                     }
 
+                    // If the client has told us to disconnect
                     if (packet is Disconnect)
                         break;
 
+                    // Invoke the recieve event
                     InvokeOnPacketReceived(clientSocket, packet);
 
+                    // If we're shutting down
                     if (isShuttingDown) break;
                 }
             }
@@ -137,18 +163,27 @@ namespace SocketConnect
             clients.Remove(clientSocket);
         }
 
+        /// <summary>
+        /// Send the packet to a specific client.
+        /// </summary>
         static public void Send(Socket clientSocket, Packet message)
         {
             // Send a message to Client
             clientSocket.Send(message.ToBytes());
         }
 
+        /// <summary>
+        /// Send the packet to every connected client.
+        /// </summary>
         public void Broadcast(Packet message)
         {
             for (int i = 0; i < clients.Count; i++)
                 Send(clients[i], message);
         }
 
+        /// <summary>
+        /// Shutdown the server.
+        /// </summary>
         public void Shutdown()
         {
             if (isShuttingDown) return; // Already shutting down
@@ -160,6 +195,9 @@ namespace SocketConnect
             clients.Clear();
         }
 
+        /// <summary>
+        /// Attempt to disconnect a client.
+        /// </summary>
         protected void TryDisconnect(Socket clientSocket)
         {
             if (!clientSocket.Connected) return;
@@ -171,6 +209,9 @@ namespace SocketConnect
             clientSocket.Close();
         }
 
+        /// <summary>
+        /// Attempt to disconnect all of the clients.
+        /// </summary>
         protected void TryDisconnectAll()
         {
             for (int i = 0; i < clients.Count; i++)

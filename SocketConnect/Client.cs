@@ -9,13 +9,17 @@ using System.Threading.Tasks;
 
 namespace SocketConnect
 {
+    /// <summary>
+    /// Represents a client connecting to a server.
+    /// </summary>
     public class Client : Connector
     {
         private const bool DEBUG = false;
 
-        Socket sender;
-
-        //List<Packet> awaitingResponses;
+        /// <summary>
+        /// The socket used in client operations.
+        /// </summary>
+        protected readonly Socket sender;
 
         public Client(IPAddress ipAddr, int port) : base(ipAddr, port)
         {
@@ -24,15 +28,16 @@ namespace SocketConnect
                 SocketType.Stream,
                 ProtocolType.Tcp
             );
-
-            //awaitingResponses = new List<Packet>();
         }
 
+        /// <summary>
+        /// Connect to the remote end point.
+        /// </summary>
         public void Connect()
         {
             try
             {
-                // Connect Socket to the remote endpoint using method Connect()
+                // Connect the Socket using method Connect()
                 sender.Connect(localEndPoint);
 
                 if (DEBUG) Console.WriteLine("SocketConnect::Client - Socket connected to -> {0} ", sender.RemoteEndPoint.ToString() );
@@ -48,86 +53,83 @@ namespace SocketConnect
         }
 
 
-        // Send 
-        public void Send(Packet message)
+        /// <summary>
+        /// Send a packet to the server.
+        /// </summary>
+        public bool Send(Packet message)
         {
-            if (!sender.Connected) return;
-
-            try
-            {
-                sender.Send(message.ToBytes());
-                //awaitingResponses.Add(message);
-            }
-            catch (SocketException se)
-            {
-                if (DEBUG) Console.WriteLine("SocketConnect::Client - SocketException : {0}", se.ToString());
-                return;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.ToString());
-                return;
-            }
+            // Make sure we're connected
+            if (!sender.Connected) return false;
 
             // Give the client and server some breathing room
             Thread.Sleep(100);
 
-            // Receive the return message
-            //Packet? receivedPacket = Receive();
-
-            //if (DEBUG) Console.WriteLine("SocketConnect::Client - Packet from Server -> {0}",
-            //      receivedPacket?.ToString()
-            //);
-
-            //return receivedPacket;
-        }
-
-        public Packet? Receive()
-        {
-            if (!sender.Connected) return null;
-
-            // Data buffer
-            byte[] bytesReceived = new byte[1024];
-
-            // Receive the bytes
-            int amount;
             try
             {
-                amount = sender.Receive(bytesReceived);
+                // Send the packet
+                sender.Send(message.ToBytes());
+                //awaitingResponses.Add(message);
+                return true; 
             }
-            catch (SocketException e)
+            catch (SocketException se)
             {
-                if (DEBUG) Console.WriteLine("SocketConnect::Client - SocketException : {0}", e.ToString());
-                return null;
+                if (DEBUG) Console.WriteLine("SocketConnect::Client - SocketException : {0}", se.ToString());
             }
             catch (Exception e)
             {
-                if (DEBUG) Console.WriteLine(e.ToString());
-                return null;
+                Console.WriteLine(e.ToString());
             }
 
-            if (amount == 0) return null;
-
-            // Create the message
-            Packet message = Packet.FromBytes<Packet>(bytesReceived);
-
-            if (DEBUG) Console.WriteLine("SocketConnect::Client - Recieved : {0}", message?.ToString());
-
-            InvokeOnPacketReceived(sender, message);
-
-            return message;
+            return false;
         }
 
+        /// <summary>
+        /// Attempt to recieve a packet, if any.
+        /// </summary>
+        public void Receive()
+        {
+            while (true)
+            {                
+                if (!sender.Connected) break;
+
+                // Data buffer
+                byte[] bytesReceived = new byte[1024];
+
+                // Receive the bytes
+                int amount;
+                try
+                {
+                    amount = sender.Receive(bytesReceived);
+                }
+                catch (SocketException e)
+                {
+                    if (DEBUG) Console.WriteLine("SocketConnect::Client - SocketException : {0}", e.ToString());
+                    break;
+                }
+                catch (Exception e)
+                {
+                    if (DEBUG) Console.WriteLine(e.ToString());
+                    break;
+                }
+
+                if (amount == 0) break;
+
+                // Deserialize the packet
+                Packet message = Packet.FromBytes<Packet>(bytesReceived);
+
+                if (DEBUG) Console.WriteLine("SocketConnect::Client - Recieved : {0}", message?.ToString());
+
+                // Raise the packet recieved event
+                InvokeOnPacketReceived(sender, message);
+            }
+        }
+
+        /// <summary>
+        /// Create a thread that recieves packets from the server.
+        /// </summary>
         public Thread ReceiveThread()
         {
-            return new Thread(() =>
-            {
-                while (true)
-                {
-                    Packet? message = Receive();
-                    if (message is null) break;
-                }
-            });
+            return new Thread(() => Receive());
         }
 
     }

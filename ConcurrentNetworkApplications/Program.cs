@@ -35,10 +35,10 @@ namespace ConcurrentNetworkApplications
             //board.DebugPrintNumbers();
             //Console.WriteLine();
 
-            ServerApplication serverApp = new ServerApplication(ipHost, ipAddr, port);
+            ServerApplication serverApp = new ServerApplication(ipAddr, port);
             serverApp.CreateRunThread().Start();
 
-            ClientApplication clientApp = new ClientApplication(ipHost, ipAddr, port);
+            ClientApplication clientApp = new ClientApplication(ipAddr, port);
             //clientApp.user.Username = "Brian";
             clientApp.Run();
             clientApp.ShowDialog();

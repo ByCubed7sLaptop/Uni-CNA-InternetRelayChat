@@ -38,18 +38,6 @@ namespace IRC
 
 
     [Serializable]
-    public class UserCollection : SocketConnect.Packet
-    {
-        public SortedDictionary<Guid, string> Users { get; }
-
-        public UserCollection(SortedDictionary<Guid, string> users)
-        {
-            Users = users;
-        }
-    }
-
-
-    [Serializable]
     public class UserJoined : SocketConnect.Packet
     {
         public string Username { get; }
@@ -74,13 +62,49 @@ namespace IRC
 
 
     [Serializable]
+    public class UserCollection : SocketConnect.Packet
+    {
+        public Guid[] Ids { get; }
+        public string[] Users { get; }
+
+        public UserCollection(SortedDictionary<Guid, string> users)
+        {
+            if (users is null) throw new ArgumentNullException(nameof(users));
+
+            //Ids = new string[users.Count];
+
+            //// Fill guids
+            //Guid[] guids = users.Keys.ToArray();
+            //for (int i = 0; i < users.Count; i++)
+            //    Ids[i] = guids[i].ToString();
+
+            Ids = users.Keys.ToArray();
+            Users = users.Values.ToArray();
+        }
+
+        public SortedDictionary<Guid, string> Get()
+        {
+            SortedDictionary<Guid, string> data = new SortedDictionary<Guid, string>();
+            for (int i = 0; i < Users.Length; i++)
+            {
+                data.Add(
+                    Ids[i], Users[i]
+                );
+            }
+            return data;
+        }
+
+    }
+
+
+    [Serializable]
     public class MessageCollection : SocketConnect.Packet
     {
-        public List<ChatMessage> Messages { get; }
+        public ChatMessage[] Messages { get; }
 
         public MessageCollection(List<ChatMessage> messages)
         {
-            Messages = messages;
+            Messages = messages.ToArray();
         }
     }
 }

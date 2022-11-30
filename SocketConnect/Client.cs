@@ -120,7 +120,7 @@ namespace SocketConnect
                 if (DEBUG) Console.WriteLine("SocketConnect::Client - Recieved : {0}", message?.ToString());
 
                 // Raise the packet recieved event
-                InvokeOnPacketReceived(sender, message);
+                InvokeOnPacketReceived(sender, ipAddress, message);
             }
         }
 

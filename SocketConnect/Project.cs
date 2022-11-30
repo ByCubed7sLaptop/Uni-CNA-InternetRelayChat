@@ -10,7 +10,7 @@ int port = 11111;
 
 SocketConnect.Server server = new SocketConnect.Server(ipAddr, port);
 Thread serverThread = new Thread(() => {
-    server.Start();
+    server.Run();
 });
 
 SocketConnect.Client client = new SocketConnect.Client(ipAddr, port);

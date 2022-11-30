@@ -1,0 +1,12 @@
+D:\Projects\CNAInternetRelayChat\Chess\bin\Release\net6.0\CubedChess.deps.json
+D:\Projects\CNAInternetRelayChat\Chess\bin\Release\net6.0\CubedChess.dll
+D:\Projects\CNAInternetRelayChat\Chess\bin\Release\net6.0\CubedChess.pdb
+D:\Projects\CNAInternetRelayChat\Chess\obj\Release\net6.0\CubedChess.csproj.AssemblyReference.cache
+D:\Projects\CNAInternetRelayChat\Chess\obj\Release\net6.0\CubedChess.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects\CNAInternetRelayChat\Chess\obj\Release\net6.0\CubedChess.AssemblyInfoInputs.cache
+D:\Projects\CNAInternetRelayChat\Chess\obj\Release\net6.0\CubedChess.AssemblyInfo.cs
+D:\Projects\CNAInternetRelayChat\Chess\obj\Release\net6.0\CubedChess.csproj.CoreCompileInputs.cache
+D:\Projects\CNAInternetRelayChat\Chess\obj\Release\net6.0\CubedChess.dll
+D:\Projects\CNAInternetRelayChat\Chess\obj\Release\net6.0\refint\CubedChess.dll
+D:\Projects\CNAInternetRelayChat\Chess\obj\Release\net6.0\CubedChess.pdb
+D:\Projects\CNAInternetRelayChat\Chess\obj\Release\net6.0\ref\CubedChess.dll

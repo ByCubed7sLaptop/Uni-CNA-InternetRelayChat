@@ -47,7 +47,7 @@ namespace SocketConnect
         /// <summary>
         /// Start listening for clients to connect.
         /// </summary>
-        public void Start()
+        public void Run()
         {
             isShuttingDown = false;
 
@@ -89,6 +89,13 @@ namespace SocketConnect
             clients.Clear();
         }
 
+        public Thread RunThread()
+        {
+            return new(() => {
+                Run();
+            });
+        }
+
 
         protected Thread ConnectClientThread(Socket clientSocket)
         {
@@ -102,7 +109,7 @@ namespace SocketConnect
         {
             // Add client to list
             clients.Add(clientSocket);
-            InvokeOnConnect(clientSocket, listener);
+            InvokeOnConnect(clientSocket, ipAddress);
 
             try
             {
@@ -143,7 +150,7 @@ namespace SocketConnect
                         break;
 
                     // Invoke the recieve event
-                    InvokeOnPacketReceived(clientSocket, packet);
+                    InvokeOnPacketReceived(clientSocket, ipAddress, packet);
 
                     // If we're shutting down
                     if (isShuttingDown) break;
@@ -170,6 +177,8 @@ namespace SocketConnect
         {
             // Send a message to Client
             clientSocket.Send(message.ToBytes());
+
+            Thread.Sleep(100);
         }
 
         /// <summary>
@@ -203,7 +212,7 @@ namespace SocketConnect
             if (!clientSocket.Connected) return;
             if (DEBUG) Console.WriteLine("SocketConnect::Server - Disconnected with a client");
 
-            InvokeOnDisconnect(clientSocket, listener);
+            InvokeOnDisconnect(clientSocket, ipAddress);
 
             clientSocket.Shutdown(SocketShutdown.Both);
             clientSocket.Close();

@@ -36,7 +36,11 @@ namespace SocketConnect
             MemoryStream stream = new MemoryStream(data);
 
             // Deserialize
-            T packet = (T) formatter.Deserialize(stream);
+            T? packet = formatter.Deserialize(stream) as T;
+
+            // Packet should NOT be null
+            if (packet is null)
+                throw new NullReferenceException();
 
             // Return the deserialized data
             return packet;

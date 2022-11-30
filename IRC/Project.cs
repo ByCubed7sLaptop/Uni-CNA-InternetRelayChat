@@ -51,7 +51,7 @@ Thread serverThread = new Thread(() => {
         }
     };
 
-    server.Start();
+    server.Run();
 });
 
 Thread clientThread = new Thread(() => {

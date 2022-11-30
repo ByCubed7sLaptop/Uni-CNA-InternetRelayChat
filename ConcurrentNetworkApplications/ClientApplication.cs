@@ -42,17 +42,32 @@ namespace ConcurrentNetworkApplications
 
         private void HookUserEvents()
         {
-            // Link IRC events
-            user.OnConnect += (s, e) => {
-                window.AddMessage("Connected successfully");
-            };
-
             user.OnPacketReceived += (s, e) => {
 
                 SocketConnect.Packet message = e.Packet;
+                if (message is null) throw new NullReferenceException();
+
+                // Handshake
+                else if (message is IRC.Handshake handshake)
+                {
+                    window.AddMessage("Your server member id is: " + handshake.Guid);
+                    user.HandShake(handshake);
+                }
+
+                // UserCollection update
+                else if (message is IRC.UserCollection userCollection)
+                {
+                    Console.WriteLine("chatroom.UserFromPacket() called");
+                    window.AddMessage("chatroom.UserFromPacket() called");
+                    chatroom.UserFromPacket(userCollection);
+                }
+
+                // MessageCollection update
+                else if (message is IRC.MessageCollection messageCollection)
+                    chatroom.MessageFromPacket(messageCollection);
 
                 // ChatMessage
-                if (message is IRC.ChatMessage chatMessage)
+                else if (message is IRC.ChatMessage chatMessage)
                     window.AddMessage(chatMessage.Author + ": " + chatMessage.Contents);
 
                 // UserJoined
@@ -63,16 +78,8 @@ namespace ConcurrentNetworkApplications
                 else if (message is IRC.UserLeft userLeft)
                     window.AddMessage(userLeft.Username + " Left!");
 
-                // UserCollection update
-                else if (message is IRC.UserCollection userCollection)
-                    chatroom.SetUserCollection(userCollection);
-
-                // Handshake
-                else if (message is IRC.Handshake handshake)
-                {
-                    window.AddMessage("Your server member id is: " + handshake.Guid);
-                    user.HandShake(handshake);
-                }
+                else Console.WriteLine("Server recieved unimplemented packet: " + message.GetType().FullName);
+                
             };
         }
 

@@ -56,11 +56,7 @@ namespace ConcurrentNetworkApplications
 
                 // UserCollection update
                 else if (message is IRC.UserCollection userCollection)
-                {
-                    Console.WriteLine("chatroom.UserFromPacket() called");
-                    window.AddMessage("chatroom.UserFromPacket() called");
                     chatroom.UserFromPacket(userCollection);
-                }
 
                 // MessageCollection update
                 else if (message is IRC.MessageCollection messageCollection)
@@ -82,7 +78,6 @@ namespace ConcurrentNetworkApplications
                 
             };
         }
-
 
         /// <summary>
         /// Show Dialog MUST be called on the main thread

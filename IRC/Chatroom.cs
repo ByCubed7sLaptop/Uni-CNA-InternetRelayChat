@@ -48,9 +48,7 @@ namespace IRC
         /// Get the user collection as an update packet.
         /// </summary>
         public UserCollection UsersPacket()
-        {
-            return new UserCollection(Users);
-        }
+            => new UserCollection(Users);
 
         /// <summary>
         /// Get the message collection as an update packet.

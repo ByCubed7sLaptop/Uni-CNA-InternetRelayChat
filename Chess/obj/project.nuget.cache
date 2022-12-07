@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "F757zzNoHybyEG4i3f4IXKdkcCDyKjjVjETsaLkMUyW86bP3f91CoIpr3/z0BgGpplsSN7PxlPhSrCbUmUPbkA==",
+  "dgSpecHash": "Zb6tTo8HUNtCtqtn9QhGtnnIX/uYpF3N01H7x3ByyCs9kQjCSU6ZHBa4sAjwp2Ve+ab24tp82dRxoCt3D57NQg==",
   "success": true,
-  "projectFilePath": "D:\\Projects\\CNAInternetRelayChat\\Chess\\CubedChess.csproj",
+  "projectFilePath": "D:\\Projects\\CNAInternetRelayChat\\Chess\\Chess.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

@@ -287,16 +287,6 @@
           }
         }
       },
-      "CubedChess/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v6.0",
-        "compile": {
-          "bin/placeholder/CubedChess.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/CubedChess.dll": {}
-        }
-      },
       "GUI/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
@@ -991,11 +981,6 @@
         "version.txt"
       ]
     },
-    "CubedChess/1.0.0": {
-      "type": "project",
-      "path": "../Chess/CubedChess.csproj",
-      "msbuildProject": "../Chess/CubedChess.csproj"
-    },
     "GUI/1.0.0": {
       "type": "project",
       "path": "../GUI/GUI.csproj",
@@ -1014,7 +999,6 @@
   },
   "projectFileDependencyGroups": {
     "net6.0-windows7.0": [
-      "CubedChess >= 1.0.0",
       "GUI >= 1.0.0",
       "IRC >= 1.0.0",
       "SocketConnect >= 1.0.0"
@@ -1047,9 +1031,6 @@
         "net6.0-windows7.0": {
           "targetAlias": "net6.0-windows",
           "projectReferences": {
-            "D:\\Projects\\CNAInternetRelayChat\\Chess\\CubedChess.csproj": {
-              "projectPath": "D:\\Projects\\CNAInternetRelayChat\\Chess\\CubedChess.csproj"
-            },
             "D:\\Projects\\CNAInternetRelayChat\\GUI\\GUI.csproj": {
               "projectPath": "D:\\Projects\\CNAInternetRelayChat\\GUI\\GUI.csproj"
             },

@@ -78,15 +78,9 @@ namespace SocketConnect
             return true;
         }
 
-        public override bool Equals(object? obj)
-        {
-            return Equals(obj as Packet);
-        }
+        public override bool Equals(object? obj) => Equals(obj as Packet);
 
-        public override int GetHashCode()
-        {
-            return Id.GetHashCode();
-        }
+        public override int GetHashCode() => Id.GetHashCode();
     }
 
 }

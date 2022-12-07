@@ -175,10 +175,10 @@ namespace SocketConnect
         /// </summary>
         static public void Send(Socket clientSocket, Packet message)
         {
+            Thread.Sleep(100);
+
             // Send a message to Client
             clientSocket.Send(message.ToBytes());
-
-            Thread.Sleep(100);
         }
 
         /// <summary>

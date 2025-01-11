@@ -8,6 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Chess\Chess.csproj" />
+    <ProjectReference Include="..\CubedChess\CubedChess.csproj" />
     <ProjectReference Include="..\GUI\GUI.csproj" />
     <ProjectReference Include="..\IRC\IRC.csproj" />
     <ProjectReference Include="..\SocketConnect\SocketConnect.csproj" />

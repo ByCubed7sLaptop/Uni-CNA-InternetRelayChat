@@ -4,6 +4,64 @@
     "D:\\Projects\\CNAInternetRelayChat\\IRC\\IRC.csproj": {}
   },
   "projects": {
+    "D:\\Projects\\CNAInternetRelayChat\\Chess\\Chess.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Projects\\CNAInternetRelayChat\\Chess\\Chess.csproj",
+        "projectName": "Chess",
+        "projectPath": "D:\\Projects\\CNAInternetRelayChat\\Chess\\Chess.csproj",
+        "packagesPath": "C:\\Users\\ByCubed7\\.nuget\\packages\\",
+        "outputPath": "D:\\Projects\\CNAInternetRelayChat\\Chess\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Users\\ByCubed7\\AppData\\Roaming\\Godot\\mono\\GodotNuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\ByCubed7\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ByCubed7\\AppData\\Roaming\\NuGet\\config\\Godot.Offline.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.200\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
     "D:\\Projects\\CNAInternetRelayChat\\IRC\\IRC.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -13,8 +71,12 @@
         "packagesPath": "C:\\Users\\ByCubed7\\.nuget\\packages\\",
         "outputPath": "D:\\Projects\\CNAInternetRelayChat\\IRC\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Users\\ByCubed7\\AppData\\Roaming\\Godot\\mono\\GodotNuGetFallbackFolder"
+        ],
         "configFilePaths": [
           "C:\\Users\\ByCubed7\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ByCubed7\\AppData\\Roaming\\NuGet\\config\\Godot.Offline.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -28,6 +90,9 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
+              "D:\\Projects\\CNAInternetRelayChat\\Chess\\Chess.csproj": {
+                "projectPath": "D:\\Projects\\CNAInternetRelayChat\\Chess\\Chess.csproj"
+              },
               "D:\\Projects\\CNAInternetRelayChat\\SocketConnect\\SocketConnect.csproj": {
                 "projectPath": "D:\\Projects\\CNAInternetRelayChat\\SocketConnect\\SocketConnect.csproj"
               }
@@ -71,8 +136,12 @@
         "packagesPath": "C:\\Users\\ByCubed7\\.nuget\\packages\\",
         "outputPath": "D:\\Projects\\CNAInternetRelayChat\\SocketConnect\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Users\\ByCubed7\\AppData\\Roaming\\Godot\\mono\\GodotNuGetFallbackFolder"
+        ],
         "configFilePaths": [
           "C:\\Users\\ByCubed7\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ByCubed7\\AppData\\Roaming\\NuGet\\config\\Godot.Offline.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [

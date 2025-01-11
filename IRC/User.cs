@@ -50,6 +50,11 @@ namespace IRC
             Send(new IRC.ChatMessage(Name, message));
         }
 
+        public void SendPrivateMessage(string target, string message)
+        {
+            Send(new IRC.ChatPrivateMessage(target, Name, message));
+        }
+
         public void SendDisconnect()
         {
             Send(new SocketConnect.Disconnect());

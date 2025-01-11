@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+﻿using System.Net;
+using System.Net.Security;
 using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SocketConnect
 {
@@ -111,13 +106,14 @@ namespace SocketConnect
             clients.Add(clientSocket);
             InvokeOnConnect(clientSocket, ipAddress);
 
+            // The recieved memory stream
+            MemoryStream stream = new MemoryStream();
+            SslStream sslStream = new SslStream(stream, false);
+
             try
             {
                 while (true)
                 {
-                    // The recieved memory stream
-                    MemoryStream stream = new MemoryStream();
-
                     // The received memory buffer
                     byte[] buffer = new byte[1024];
 
@@ -163,11 +159,16 @@ namespace SocketConnect
             catch (Exception e)
             {
                 if (DEBUG) Console.WriteLine("SocketConnect::Server - Unexpected exception : {0}", e.ToString());
-            }            
+            }
+            finally
+            {
+                // Close stream
+                sslStream.Close();
 
-            // Close client Socket
-            TryDisconnect(clientSocket);
-            clients.Remove(clientSocket);
+                // Close client Socket
+                TryDisconnect(clientSocket);
+                clients.Remove(clientSocket);
+            }
         }
 
         /// <summary>

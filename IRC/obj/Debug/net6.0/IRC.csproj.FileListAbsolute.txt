@@ -48,3 +48,5 @@ D:\Projects\CNAInternetRelayChat\IRC\obj\Debug\net6.0\refint\IRC.dll
 D:\Projects\CNAInternetRelayChat\IRC\obj\Debug\net6.0\IRC.pdb
 D:\Projects\CNAInternetRelayChat\IRC\obj\Debug\net6.0\IRC.genruntimeconfig.cache
 D:\Projects\CNAInternetRelayChat\IRC\obj\Debug\net6.0\ref\IRC.dll
+D:\Projects\CNAInternetRelayChat\IRC\bin\Debug\net6.0\Chess.dll
+D:\Projects\CNAInternetRelayChat\IRC\bin\Debug\net6.0\Chess.pdb

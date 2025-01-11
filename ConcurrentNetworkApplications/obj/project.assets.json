@@ -287,6 +287,26 @@
           }
         }
       },
+      "Chess/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/Chess.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Chess.dll": {}
+        }
+      },
+      "CubedChess/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/CubedChess.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/CubedChess.dll": {}
+        }
+      },
       "GUI/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
@@ -304,6 +324,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
+          "Chess": "1.0.0",
           "SocketConnect": "1.0.0"
         },
         "compile": {
@@ -981,6 +1002,16 @@
         "version.txt"
       ]
     },
+    "Chess/1.0.0": {
+      "type": "project",
+      "path": "../Chess/Chess.csproj",
+      "msbuildProject": "../Chess/Chess.csproj"
+    },
+    "CubedChess/1.0.0": {
+      "type": "project",
+      "path": "../CubedChess/CubedChess.csproj",
+      "msbuildProject": "../CubedChess/CubedChess.csproj"
+    },
     "GUI/1.0.0": {
       "type": "project",
       "path": "../GUI/GUI.csproj",
@@ -999,13 +1030,16 @@
   },
   "projectFileDependencyGroups": {
     "net6.0-windows7.0": [
+      "Chess >= 1.0.0",
+      "CubedChess >= 1.0.0",
       "GUI >= 1.0.0",
       "IRC >= 1.0.0",
       "SocketConnect >= 1.0.0"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\ByCubed7\\.nuget\\packages\\": {}
+    "C:\\Users\\ByCubed7\\.nuget\\packages\\": {},
+    "C:\\Users\\ByCubed7\\AppData\\Roaming\\Godot\\mono\\GodotNuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
@@ -1016,8 +1050,12 @@
       "packagesPath": "C:\\Users\\ByCubed7\\.nuget\\packages\\",
       "outputPath": "D:\\Projects\\CNAInternetRelayChat\\ConcurrentNetworkApplications\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Users\\ByCubed7\\AppData\\Roaming\\Godot\\mono\\GodotNuGetFallbackFolder"
+      ],
       "configFilePaths": [
         "C:\\Users\\ByCubed7\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\ByCubed7\\AppData\\Roaming\\NuGet\\config\\Godot.Offline.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -1031,6 +1069,12 @@
         "net6.0-windows7.0": {
           "targetAlias": "net6.0-windows",
           "projectReferences": {
+            "D:\\Projects\\CNAInternetRelayChat\\Chess\\Chess.csproj": {
+              "projectPath": "D:\\Projects\\CNAInternetRelayChat\\Chess\\Chess.csproj"
+            },
+            "D:\\Projects\\CNAInternetRelayChat\\CubedChess\\CubedChess.csproj": {
+              "projectPath": "D:\\Projects\\CNAInternetRelayChat\\CubedChess\\CubedChess.csproj"
+            },
             "D:\\Projects\\CNAInternetRelayChat\\GUI\\GUI.csproj": {
               "projectPath": "D:\\Projects\\CNAInternetRelayChat\\GUI\\GUI.csproj"
             },

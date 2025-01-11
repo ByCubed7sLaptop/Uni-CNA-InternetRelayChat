@@ -12,3 +12,6 @@
 /ConcurrentNetworkApplications/obj/Debug/net6.0/refint
 /ConcurrentNetworkApplications/bin/Debug/net6.0
 /.vs/ConcurrentNetworkApplications/DesignTimeBuild
+/Chess/bin
+/Chess/Chess/obj
+/.vs

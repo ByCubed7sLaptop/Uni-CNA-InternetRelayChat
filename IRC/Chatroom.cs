@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace IRC
+﻿namespace IRC
 {
     /// <summary>
     /// Represents a chatroom, contains a collection of users and messages.
@@ -38,7 +31,7 @@ namespace IRC
             // Generate a user key
             Guid guid = Guid.NewGuid();
 
-            // Add user
+            // Add user with given nickname
             Users.Add(guid, username);
 
             return guid;
@@ -65,7 +58,7 @@ namespace IRC
         /// <summary>
         /// Set the message collection using a packet.
         /// </summary>
-        public void MessageFromPacket(MessageCollection messageCollection) 
+        public void MessageFromPacket(MessageCollection messageCollection)
             => Messages = messageCollection.Messages.ToList();
     }
 }

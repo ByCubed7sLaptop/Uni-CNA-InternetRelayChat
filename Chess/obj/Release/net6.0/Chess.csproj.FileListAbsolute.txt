@@ -1,0 +1,12 @@
+D:\Projects\CNAInternetRelayChat\Chess\bin\Release\net6.0\Chess.deps.json
+D:\Projects\CNAInternetRelayChat\Chess\bin\Release\net6.0\Chess.dll
+D:\Projects\CNAInternetRelayChat\Chess\bin\Release\net6.0\Chess.pdb
+D:\Projects\CNAInternetRelayChat\Chess\obj\Release\net6.0\Chess.csproj.AssemblyReference.cache
+D:\Projects\CNAInternetRelayChat\Chess\obj\Release\net6.0\Chess.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects\CNAInternetRelayChat\Chess\obj\Release\net6.0\Chess.AssemblyInfoInputs.cache
+D:\Projects\CNAInternetRelayChat\Chess\obj\Release\net6.0\Chess.AssemblyInfo.cs
+D:\Projects\CNAInternetRelayChat\Chess\obj\Release\net6.0\Chess.csproj.CoreCompileInputs.cache
+D:\Projects\CNAInternetRelayChat\Chess\obj\Release\net6.0\Chess.dll
+D:\Projects\CNAInternetRelayChat\Chess\obj\Release\net6.0\refint\Chess.dll
+D:\Projects\CNAInternetRelayChat\Chess\obj\Release\net6.0\Chess.pdb
+D:\Projects\CNAInternetRelayChat\Chess\obj\Release\net6.0\ref\Chess.dll

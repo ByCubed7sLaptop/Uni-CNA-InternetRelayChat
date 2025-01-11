@@ -27,17 +27,23 @@ namespace GUI
 
         public void AddMessage(string str)
         {
-            //strings.Add(str);
-
             Dispatcher.Invoke(() => {
                 MessageContainer.Items.Add(str);
             });
 
-
             // Scroll to bottom if near
 
             // Play sounds?
+            Console.Beep(150, 100);
+        }
 
+        public void UpdateMembers(List<string> member)
+        {
+            Dispatcher.Invoke(() => {
+                MemberContainer.Items.Clear();
+                foreach (string str in member) 
+                    MemberContainer.Items.Add(str);
+            });
         }
 
 
@@ -46,16 +52,19 @@ namespace GUI
         private void InternalAddButton_Click(object sender, RoutedEventArgs e)
         {
             Console.WriteLine("InternalAddButton_Click");
+            throw new NotImplementedException();
         }
 
         private void InternalDeleteButton_Click(object sender, RoutedEventArgs e)
         {
             Console.WriteLine("InternalDeleteButton_Click");
+            throw new NotImplementedException();
         }
 
         private void InternalEditButton_Click(object sender, RoutedEventArgs e)
         {
             Console.WriteLine("InternalEditButton_Click");
+            throw new NotImplementedException();
         }
 
         // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

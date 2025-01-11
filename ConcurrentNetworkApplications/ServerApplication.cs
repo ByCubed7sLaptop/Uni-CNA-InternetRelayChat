@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+﻿using System.Net;
 using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ConcurrentNetworkApplications
 {
@@ -15,12 +10,16 @@ namespace ConcurrentNetworkApplications
 
         public Dictionary<Socket, Guid> socketToId;
 
+        public ChessGameCollectionManager chessGameCollectionManager;
+
         public ServerApplication(IPAddress ipAddr, int port)
         {
             chatroom = new IRC.Chatroom();
             server = new SocketConnect.Server(ipAddr, port);
 
             socketToId = new Dictionary<Socket, Guid>();
+
+            chessGameCollectionManager = new ChessGameCollectionManager();  
 
             Hook();
 
@@ -66,11 +65,34 @@ namespace ConcurrentNetworkApplications
 
                     // Send the user update data
                     IRC.UserCollection userCollection = chatroom.UsersPacket();
-                    SocketConnect.Server.Send(e.Client, userCollection);
+                    server.Broadcast(userCollection);
 
                     // Send the message update data
                     IRC.MessageCollection messageCollection = chatroom.MessagePacket();
-                    SocketConnect.Server.Send(e.Client, messageCollection);
+                    server.Broadcast(messageCollection);
+                }
+
+                // PRIVATE MESSAGE
+                else if (message is IRC.ChatPrivateMessage chatPrivateMessage)
+                {
+                    chatroom.Messages.Add(chatPrivateMessage);
+
+                    // Get target guid from name
+                    Guid targetID = Guid.Empty;
+                    foreach (KeyValuePair<Guid, string> pair in chatroom.Users)
+                        if (pair.Value == chatPrivateMessage.Target)
+                            targetID = pair.Key;
+
+                    // Get target socket from guid
+                    Socket? targetSocket = null;
+                    foreach (KeyValuePair<Socket, Guid> pair in socketToId)
+                        if (pair.Value == targetID)
+                            targetSocket = pair.Key;
+
+                    if (targetSocket == null) return;
+
+                    SocketConnect.Server.Send(targetSocket, chatPrivateMessage);
+                    SocketConnect.Server.Send(e.Client, chatPrivateMessage);
                 }
 
                 // MESSAGE
@@ -78,6 +100,19 @@ namespace ConcurrentNetworkApplications
                 {
                     chatroom.Messages.Add(chatMessage);
                     server.Broadcast(message); //?
+                }
+
+                else if (message is ChessGameUpdate chessGameUpdate)
+                {
+                    chessGameCollectionManager.HandlePacket(chessGameUpdate);
+                    // Reflect the packet back to both players
+                    // TODO: Change socketToId to a doublelinked dictionary
+                    foreach (KeyValuePair<Socket, Guid> pair in socketToId)
+                    {
+                        // Guid to Socket reverse lookup
+                        if (pair.Value == chessGameUpdate.Player1) pair.Key.Send(chessGameUpdate.ToBytes());
+                        if (pair.Value == chessGameUpdate.Player2) pair.Key.Send(chessGameUpdate.ToBytes());
+                    }
                 }
 
                 else

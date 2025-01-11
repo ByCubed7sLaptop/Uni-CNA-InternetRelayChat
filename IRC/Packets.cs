@@ -7,6 +7,18 @@ using System.Threading.Tasks;
 namespace IRC
 {
     [Serializable]
+    public class ChatPrivateMessage : ChatMessage
+    {
+        public string Target { get; set; }
+
+        public ChatPrivateMessage(string target, string author, string contents)
+            : base(author, contents)
+        {
+            Target = target;
+        }
+    }
+
+    [Serializable]
     public class ChatMessage : SocketConnect.Packet
     {
         public string Author { get; set; }

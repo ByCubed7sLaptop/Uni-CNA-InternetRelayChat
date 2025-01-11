@@ -50,6 +50,8 @@
             </ListBox.ContextMenu>
         </ListBox>
 
+        <ListBox x:Name="MemberContainer" Margin="2,2,2,5" Grid.Column="3" Grid.ColumnSpan="1" d:ItemsSource="{d:SampleData ItemCount=5}">
+        </ListBox>
 
 
 

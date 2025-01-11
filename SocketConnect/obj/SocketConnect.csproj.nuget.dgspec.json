@@ -13,8 +13,12 @@
         "packagesPath": "C:\\Users\\ByCubed7\\.nuget\\packages\\",
         "outputPath": "D:\\Projects\\CNAInternetRelayChat\\SocketConnect\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Users\\ByCubed7\\AppData\\Roaming\\Godot\\mono\\GodotNuGetFallbackFolder"
+        ],
         "configFilePaths": [
           "C:\\Users\\ByCubed7\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ByCubed7\\AppData\\Roaming\\NuGet\\config\\Godot.Offline.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [

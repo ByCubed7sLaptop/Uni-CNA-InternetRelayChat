@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Chess\Chess.csproj" />
     <ProjectReference Include="..\SocketConnect\SocketConnect.csproj" />
   </ItemGroup>
 

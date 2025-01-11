@@ -1,10 +1,4 @@
-﻿using System;
-using System.Net;
-using System.Threading;
-using System.Windows;
-
-using CubedChess;
-using SocketConnect;
+﻿using System.Net;
 
 // Put everything together! :D
 namespace ConcurrentNetworkApplications
@@ -35,13 +29,19 @@ namespace ConcurrentNetworkApplications
             //board.DebugPrintNumbers();
             //Console.WriteLine();
 
-            ServerApplication serverApp = new ServerApplication(ipAddr, port);
-            serverApp.Run();
+            //ServerApplication serverApp = new ServerApplication(ipAddr, port);
+            //serverApp.Run();
 
-            ClientApplication clientApp = new ClientApplication(ipAddr, port);
-            //clientApp.user.Username = "Brian";
+            ClientApplication clientApp = new ClientApplication(ipAddr, port, "Braien 2");
             clientApp.Run();
             clientApp.ShowDialog();
+
+            //new Thread(() => { 
+            //    ClientApplication clientApp2 = new ClientApplication(ipAddr, port, "AAAAAAAAA");
+            //    Thread.Sleep(1000);
+            //    clientApp2.Run(); 
+            //}).Start();
+
 
 
             //ClientApplication clientApp2 = new ClientApplication(ipHost, ipAddr, port);

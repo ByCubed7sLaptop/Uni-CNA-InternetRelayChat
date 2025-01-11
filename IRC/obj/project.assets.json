@@ -287,6 +287,16 @@
           }
         }
       },
+      "Chess/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/Chess.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Chess.dll": {}
+        }
+      },
       "SocketConnect/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
@@ -955,6 +965,11 @@
         "version.txt"
       ]
     },
+    "Chess/1.0.0": {
+      "type": "project",
+      "path": "../Chess/Chess.csproj",
+      "msbuildProject": "../Chess/Chess.csproj"
+    },
     "SocketConnect/1.0.0": {
       "type": "project",
       "path": "../SocketConnect/SocketConnect.csproj",
@@ -963,11 +978,13 @@
   },
   "projectFileDependencyGroups": {
     "net6.0": [
+      "Chess >= 1.0.0",
       "SocketConnect >= 1.0.0"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\ByCubed7\\.nuget\\packages\\": {}
+    "C:\\Users\\ByCubed7\\.nuget\\packages\\": {},
+    "C:\\Users\\ByCubed7\\AppData\\Roaming\\Godot\\mono\\GodotNuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
@@ -978,8 +995,12 @@
       "packagesPath": "C:\\Users\\ByCubed7\\.nuget\\packages\\",
       "outputPath": "D:\\Projects\\CNAInternetRelayChat\\IRC\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Users\\ByCubed7\\AppData\\Roaming\\Godot\\mono\\GodotNuGetFallbackFolder"
+      ],
       "configFilePaths": [
         "C:\\Users\\ByCubed7\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\ByCubed7\\AppData\\Roaming\\NuGet\\config\\Godot.Offline.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -993,6 +1014,9 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
+            "D:\\Projects\\CNAInternetRelayChat\\Chess\\Chess.csproj": {
+              "projectPath": "D:\\Projects\\CNAInternetRelayChat\\Chess\\Chess.csproj"
+            },
             "D:\\Projects\\CNAInternetRelayChat\\SocketConnect\\SocketConnect.csproj": {
               "projectPath": "D:\\Projects\\CNAInternetRelayChat\\SocketConnect\\SocketConnect.csproj"
             }
